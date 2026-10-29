@@ -1,0 +1,162 @@
+Time
+#
+Log Message
+7.4s	1	0.00s - Debugger warning: It seems that frozen modules are being used, which may
+7.4s	2	0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+7.4s	3	0.00s - to python to disable frozen modules.
+7.4s	4	0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+8.0s	5	0.00s - Debugger warning: It seems that frozen modules are being used, which may
+8.0s	6	0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+8.0s	7	0.00s - to python to disable frozen modules.
+8.0s	8	0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+20.6s	9	/kaggle/working/brain_tumor_mtl
+23.1s	10	[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/154.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m154.8/154.8 kB[0m [31m5.1 MB/s[0m eta [36m0:00:00[0m
+25.6s	11	[?25hGPU 0: Tesla T4 (UUID: GPU-7f5ab0f2-67c0-02d5-fff4-c11134e002a2)
+25.6s	12	GPU 1: Tesla T4 (UUID: GPU-0280f37b-b1ad-d4a5-77cb-f9716af4cea6)
+46.6s	13	[split] train: 167 patients, 2186 slices  (matches split file)
+46.6s	14	[split] val  :  33 patients,  409 slices  (matches split file)
+46.6s	15	[split] test :  33 patients,  469 slices  (matches split file)
+46.6s	16	[split] leakage check: PASS (no patient appears in two splits)
+46.6s	17	[data] /kaggle/input/datasets/amanhooda2746/bt-data/data/raw
+46.6s	18	[data] train: 2186 slices / 167 patients / glioma 1071, meningioma 479, pituitary 636
+46.6s	19	[data] val: 409 slices / 33 patients / glioma 160, meningioma 98, pituitary 151
+56.0s	20	[data] cached 2595 slices at 384px in 9s
+57.6s	21	Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+57.6s	22	config.json:   0%|                                    | 0.00/156 [00:00<?, ?B/s]config.json: 100%|██████████████████████████████| 156/156 [00:00<00:00, 636kB/s]
+57.9s	23	
+59.1s	24	model.safetensors: reconstructing file:   0%|      |  0.00B / 87.3MB            [Amodel.safetensors: downloading bytes:                       |  0.00B            model.safetensors: downloading bytes: ▍                     | 1.91MB            model.safetensors: downloading bytes: ██▉                   | 11.7MB,  188kB/s  model.safetensors: downloading bytes: ████████▏             | 32.3MB, 1.15MB/s  model.safetensors: downloading bytes: ██████████████        | 55.8MB, 3.15MB/s  model.safetensors: downloading bytes: ██████████████████▌   | 73.8MB, 5.42MB/s  
+59.1s	25	model.safetensors: reconstructing file: 100%|██████| 87.3MB / 87.3MB            [Amodel.safetensors: downloading bytes: ██████████████████████| 80.6MB, 7.72MB/s  model.safetensors: downloading bytes: ██████████████████████| 80.6MB, 7.72MB/s  
+59.1s	26	model.safetensors: reconstructing file: 100%|██████| 87.3MB / 87.3MB, 8.48MB/s  
+59.6s	27	[model] ProposedMTNet / resnet34 (imagenet) / seg-guided=True / 25.60M params
+104.5s	28	/kaggle/working/brain_tumor_mtl/train.py:171: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+104.5s	29	  sched.step()
+156.2s	30	ep   1 | loss 2.2181 (seg 1.4072 cls 0.8108) train-acc 0.7210 | val dice 0.3018 acc 0.8753 f1 0.8631 score 0.5824 | 96s  * saved
+156.2s	31	[train] done. best val score 0.5824 at epoch 1 -> /tmp/check/best.pth
+163.2s	32	GPUs: 2
+1738.6s	33	[split] train: 167 patients, 2186 slices  (matches split file)
+1738.6s	34	[split] val  :  33 patients,  409 slices  (matches split file)
+1738.6s	35	[split] test :  33 patients,  469 slices  (matches split file)
+1738.6s	36	[split] leakage check: PASS (no patient appears in two splits)
+1738.6s	37	[data] /kaggle/input/datasets/amanhooda2746/bt-data/data/raw
+1738.6s	38	[data] train: 2186 slices / 167 patients / glioma 1071, meningioma 479, pituitary 636
+1738.6s	39	[data] val: 409 slices / 33 patients / glioma 160, meningioma 98, pituitary 151
+1738.6s	40	[data] cached 2595 slices at 384px in 6s
+1738.6s	41	[model] ProposedMTNet / resnet34 (imagenet) / seg-guided=True / 25.60M params
+1781.3s	42	/kaggle/working/brain_tumor_mtl/train.py:171: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+1781.3s	43	  sched.step()
+1842.1s	44	ep   1 | loss 2.4648 (seg 1.6358 cls 0.8290) train-acc 0.6461 | val dice 0.1239 acc 0.8949 f1 0.8879 score 0.5059 | 103s  * saved
+1897.1s	45	ep   2 | loss 1.6970 (seg 1.1556 cls 0.5415) train-acc 0.8984 | val dice 0.5454 acc 0.9389 f1 0.9330 score 0.7392 | 55s  * saved
+1952.2s	46	ep   3 | loss 1.2408 (seg 0.7558 cls 0.4851) train-acc 0.9283 | val dice 0.7001 acc 0.9438 f1 0.9387 score 0.8194 | 55s  * saved
+2007.5s	47	ep   4 | loss 0.8566 (seg 0.4039 cls 0.4527) train-acc 0.9490 | val dice 0.7555 acc 0.9584 f1 0.9548 score 0.8552 | 55s  * saved
+2062.6s	48	ep   5 | loss 0.7197 (seg 0.3057 cls 0.4140) train-acc 0.9678 | val dice 0.7791 acc 0.9633 f1 0.9602 score 0.8696 | 55s  * saved
+2117.6s	49	ep   6 | loss 0.6697 (seg 0.2750 cls 0.3947) train-acc 0.9720 | val dice 0.7887 acc 0.9633 f1 0.9600 score 0.8743 | 55s  * saved
+2172.6s	50	ep   7 | loss 0.6256 (seg 0.2471 cls 0.3785) train-acc 0.9821 | val dice 0.7932 acc 0.9780 f1 0.9754 score 0.8843 | 55s  * saved
+2227.5s	51	ep   8 | loss 0.6079 (seg 0.2310 cls 0.3770) train-acc 0.9853 | val dice 0.8038 acc 0.9633 f1 0.9596 score 0.8817 | 55s
+2282.3s	52	ep   9 | loss 0.5820 (seg 0.2197 cls 0.3622) train-acc 0.9871 | val dice 0.8051 acc 0.9633 f1 0.9596 score 0.8823 | 55s
+2337.1s	53	ep  10 | loss 0.5813 (seg 0.2060 cls 0.3753) train-acc 0.9853 | val dice 0.8036 acc 0.9609 f1 0.9567 score 0.8802 | 55s
+2392.0s	54	ep  11 | loss 0.5647 (seg 0.1953 cls 0.3694) train-acc 0.9830 | val dice 0.8082 acc 0.9633 f1 0.9595 score 0.8838 | 55s
+2446.8s	55	ep  12 | loss 0.5562 (seg 0.1916 cls 0.3646) train-acc 0.9876 | val dice 0.8070 acc 0.9633 f1 0.9596 score 0.8833 | 55s
+2501.7s	56	ep  13 | loss 0.5273 (seg 0.1833 cls 0.3441) train-acc 0.9936 | val dice 0.8052 acc 0.9584 f1 0.9544 score 0.8798 | 55s
+2556.6s	57	ep  14 | loss 0.5291 (seg 0.1772 cls 0.3519) train-acc 0.9936 | val dice 0.8090 acc 0.9584 f1 0.9553 score 0.8821 | 55s
+2611.7s	58	ep  15 | loss 0.5227 (seg 0.1728 cls 0.3499) train-acc 0.9936 | val dice 0.8118 acc 0.9609 f1 0.9568 score 0.8843 | 55s  * saved
+2666.9s	59	ep  16 | loss 0.5203 (seg 0.1672 cls 0.3531) train-acc 0.9926 | val dice 0.8126 acc 0.9658 f1 0.9623 score 0.8874 | 55s  * saved
+2721.9s	60	ep  17 | loss 0.5085 (seg 0.1595 cls 0.3491) train-acc 0.9949 | val dice 0.8137 acc 0.9609 f1 0.9571 score 0.8854 | 55s
+2777.1s	61	ep  18 | loss 0.5030 (seg 0.1529 cls 0.3501) train-acc 0.9931 | val dice 0.8139 acc 0.9584 f1 0.9552 score 0.8845 | 55s
+2832.1s	62	ep  19 | loss 0.4929 (seg 0.1498 cls 0.3430) train-acc 0.9968 | val dice 0.8130 acc 0.9535 f1 0.9499 score 0.8814 | 55s
+2887.2s	63	ep  20 | loss 0.4889 (seg 0.1485 cls 0.3404) train-acc 0.9963 | val dice 0.8104 acc 0.9560 f1 0.9526 score 0.8815 | 55s
+2942.3s	64	ep  21 | loss 0.4825 (seg 0.1442 cls 0.3382) train-acc 0.9982 | val dice 0.8105 acc 0.9438 f1 0.9396 score 0.8750 | 55s
+2997.1s	65	ep  22 | loss 0.4782 (seg 0.1361 cls 0.3421) train-acc 0.9968 | val dice 0.8129 acc 0.9315 f1 0.9267 score 0.8698 | 55s
+3051.6s	66	ep  23 | loss 0.4699 (seg 0.1311 cls 0.3388) train-acc 0.9963 | val dice 0.8134 acc 0.9389 f1 0.9344 score 0.8739 | 54s
+3106.0s	67	ep  24 | loss 0.4680 (seg 0.1303 cls 0.3377) train-acc 0.9972 | val dice 0.8163 acc 0.9462 f1 0.9421 score 0.8792 | 54s
+3160.6s	68	ep  25 | loss 0.4556 (seg 0.1228 cls 0.3328) train-acc 0.9986 | val dice 0.8169 acc 0.9487 f1 0.9448 score 0.8809 | 55s
+3215.4s	69	ep  26 | loss 0.4540 (seg 0.1210 cls 0.3331) train-acc 0.9991 | val dice 0.8180 acc 0.9487 f1 0.9448 score 0.8814 | 55s
+3270.4s	70	ep  27 | loss 0.4585 (seg 0.1188 cls 0.3397) train-acc 0.9972 | val dice 0.8170 acc 0.9487 f1 0.9448 score 0.8809 | 55s
+3325.4s	71	ep  28 | loss 0.4480 (seg 0.1137 cls 0.3344) train-acc 0.9982 | val dice 0.8175 acc 0.9487 f1 0.9448 score 0.8811 | 55s
+3380.4s	72	ep  29 | loss 0.4467 (seg 0.1136 cls 0.3331) train-acc 0.9991 | val dice 0.8162 acc 0.9462 f1 0.9421 score 0.8792 | 55s
+3435.5s	73	ep  30 | loss 0.4460 (seg 0.1103 cls 0.3357) train-acc 0.9977 | val dice 0.8156 acc 0.9462 f1 0.9421 score 0.8789 | 55s
+3490.7s	74	ep  31 | loss 0.4478 (seg 0.1078 cls 0.3400) train-acc 0.9959 | val dice 0.8176 acc 0.9487 f1 0.9447 score 0.8811 | 55s
+3490.8s	75	[train] early stop: no val improvement for 15 epochs
+3490.8s	76	[train] done. best val score 0.8874 at epoch 16 -> runs/seed2/best.pth
+3492.4s	77	==> logs/seed0.log <==
+3492.4s	78	[train] early stop: no val improvement for 15 epochs
+3492.4s	79	[train] done. best val score 0.8888 at epoch 13 -> runs/seed0/best.pth
+3492.4s	80	
+3492.4s	81	==> logs/seed1.log <==
+3492.4s	82	[train] early stop: no val improvement for 15 epochs
+3492.4s	83	[train] done. best val score 0.8814 at epoch 12 -> runs/seed1/best.pth
+3492.4s	84	
+3492.4s	85	==> logs/seed2.log <==
+3492.4s	86	[train] early stop: no val improvement for 15 epochs
+3492.4s	87	[train] done. best val score 0.8874 at epoch 16 -> runs/seed2/best.pth
+3590.0s	88	[eval] 3 checkpoint(s), img_size 384, eval_size 256, device cuda
+3590.0s	89	[split] train: 167 patients, 2186 slices  (matches split file)
+3590.0s	90	[split] val  :  33 patients,  409 slices  (matches split file)
+3590.0s	91	[split] test :  33 patients,  469 slices  (matches split file)
+3590.0s	92	[split] leakage check: PASS (no patient appears in two splits)
+3590.0s	93	
+3590.0s	94	configuration    | val Dice  val acc   val F1 val score | test Dice test acc  test F1
+3590.0s	95	seed_0           |   0.8154   0.9658   0.9624    0.8889 |    0.8315   0.9808   0.9795
+3590.0s	96	seed_1           |   0.8062   0.9609   0.9572    0.8817 |    0.8243   0.9808   0.9792
+3590.0s	97	seed_2           |   0.8130   0.9658   0.9623    0.8876 |    0.8392   0.9787   0.9777
+3590.0s	98	seed_0+tta       |   0.8167   0.9731   0.9704    0.8935 |    0.8305   0.9808   0.9795
+3590.0s	99	seed_1+tta       |   0.8081   0.9658   0.9625    0.8853 |    0.8265   0.9829   0.9820
+3590.0s	100	seed_2+tta       |   0.8137   0.9658   0.9623    0.8880 |    0.8387   0.9808   0.9799
+3590.0s	101	ensemble         |   0.8142   0.9609   0.9570    0.8856 |    0.8353   0.9829   0.9820
+3590.0s	102	ensemble+tta     |   0.8146   0.9707   0.9673    0.8909 |    0.8349   0.9829   0.9820
+3590.0s	103	
+3590.0s	104	[eval] selected on VALIDATION: seed_0+tta
+3590.0s	105	[eval] Grad-CAM faithfulness ...
+3590.0s	106	
+3590.0s	107	===== TEST (seed_0+tta; 469 slices, 33 patients) =====
+3590.0s	108	Dice        0.8305  patient-CI [0.7821, 0.8746]   (native res 0.8284)
+3590.0s	109	IoU         0.7498
+3590.0s	110	Accuracy    0.9808  patient-CI [0.9581, 0.9979]  (9 errors from 4 patients)
+3590.0s	111	Macro-F1    0.9795
+3590.0s	112	Grad-CAM    IoU@0.5 0.0452 | pointing 0.1642 | energy 0.0236 | random floor 0.0098 | ceiling 0.5155 (grid 24)
+3590.0s	113	Efficiency  25.60M params, 23.6 ms/slice on cuda
+3590.0s	114	MAG-Net on the same split: Dice 0.7604, accuracy 0.9488, macro-F1 0.9467
+3590.0s	115	
+3590.0s	116	written: results/eval.json, results/eval_per_slice.csv, results/figures/
+3590.0s	117	next:    python compare.py --new results/eval_per_slice.csv
+3593.2s	118	
+3593.2s	119	=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+3593.2s	120	Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2505, +6.6099]  p_holm 0.075  (not significant) (McNemar 21 vs 6, p=0.006)
+3593.2s	121	Dice                         new   0.8305  base   0.7604  diff +0.0701  CI [+0.0440, +0.0981]  p_holm <0.001  (significant)
+3593.2s	122	IoU                          new   0.7498  base   0.6664  diff +0.0833  CI [+0.0568, +0.1112]  p_holm <0.001  (significant)
+3593.2s	123	Grad-CAM IoU@0.5             new   0.0452  base   0.0936  diff -0.0484  CI [-0.0861, -0.0138]  p_holm 0.016  (significant)
+3593.2s	124	Grad-CAM energy in tumour    new   0.0236  base   0.0444  diff -0.0208  CI [-0.0369, -0.0076]  p_holm 0.004  (significant)
+3593.2s	125	Pointing game                new   16.42%  base   11.09%  diff +5.3305 pts  CI [-3.9313, +13.6456]  p_holm 0.265  (not significant)
+3593.2s	126	
+3593.2s	127	=== Proposed MTL (v6)  vs  Previous multi-task (v5) ===
+3593.2s	128	Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2066, +6.8338]  p_holm 0.045  (significant) (McNemar 20 vs 5, p=0.004)
+3593.2s	129	Dice                         new   0.8305  base   0.7682  diff +0.0623  CI [+0.0404, +0.0856]  p_holm <0.001  (significant)
+3593.2s	130	IoU                          new   0.7498  base   0.6807  diff +0.0690  CI [+0.0486, +0.0905]  p_holm <0.001  (significant)
+3593.2s	131	Grad-CAM IoU@0.5             new   0.0452  base   0.0938  diff -0.0486  CI [-0.0846, -0.0153]  p_holm 0.010  (significant)
+3593.2s	132	Grad-CAM energy in tumour    new   0.0236  base   0.0484  diff -0.0247  CI [-0.0399, -0.0118]  p_holm <0.001  (significant)
+3593.2s	133	Pointing game                new   16.42%  base   28.14%  diff -11.7271 pts  CI [-22.2222, -1.8325]  p_holm 0.045  (significant)
+3593.2s	134	
+3593.2s	135	=== Proposed MTL (v6): Grad-CAM faithfulness, correct vs incorrect ===
+3593.2s	136	cam_iou        correct 0.0421  incorrect 0.2042  diff -0.1621  CI [-0.2083, +0.0051]  p 0.054
+3593.2s	137	cam_energy     correct 0.0234  incorrect 0.0353  diff -0.0119  CI [-0.0247, +0.0024]  p 0.128
+3593.2s	138	cam_pointing   correct 0.1565  incorrect 0.5556  diff -0.3990  CI [-0.8204, +0.1125]  p 0.055
+3593.2s	139	cam_iou@0.2    correct 0.0244  incorrect 0.0392  diff -0.0147  CI [-0.0306, +0.0023]  p 0.122
+3593.2s	140	cam_iou@0.3    correct 0.0345  incorrect 0.0741  diff -0.0396  CI [-0.0580, -0.0046]  p 0.031
+3593.2s	141	cam_iou@0.4    correct 0.0419  incorrect 0.1647  diff -0.1228  CI [-0.1855, +0.0007]  p 0.051
+3593.2s	142	cam_iou@0.5    correct 0.0421  incorrect 0.2042  diff -0.1621  CI [-0.2083, +0.0051]  p 0.054
+3593.2s	143	cam_iou@0.6    correct 0.0353  incorrect 0.1907  diff -0.1554  CI [-0.1964, +0.0179]  p 0.055
+3593.2s	144	cam_iou@0.7    correct 0.0244  incorrect 0.1431  diff -0.1186  CI [-0.1569, +0.0174]  p 0.055
+3593.2s	145	cam_iou@0.8    correct 0.0135  incorrect 0.0789  diff -0.0654  CI [-0.0855, +0.0093]  p 0.055
+3593.2s	146	cam_iou@0.85   correct 0.0088  incorrect 0.0507  diff -0.0419  CI [-0.0556, +0.0060]  p 0.055
+3593.2s	147	cam_iou@0.9    correct 0.0048  incorrect 0.0276  diff -0.0228  CI [-0.0314, +0.0031]  p 0.056
+3593.2s	148	cam_iou@0.95   correct 0.0018  incorrect 0.0099  diff -0.0081  CI [-0.0120, +0.0010]  p 0.055
+3593.2s	149	
+3593.2s	150	written: results/comparison/comparison.json, results/comparison/comparison.md
+3593.6s	151	Done. Download outputs_v6.zip and runs/seed*/best.pth
+3596.2s	152	/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+3596.2s	153	  cells[i][c] = re.sub('\\\\\|', '|', cell)
+3596.4s	154	/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+3596.4s	155	  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+3597.1s	156	[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+3597.2s	157	[NbConvertApp] Writing 18308 bytes to __notebook__.ipynb
+3599.7s	158	[NbConvertApp] Converting notebook __notebook__.ipynb to html
+3600.2s	159	[NbConvertApp] Writing 288565 bytes to __results__.html

@@ -1,0 +1,207 @@
+GPUs: 2
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+[data] /kaggle/input/datasets/amanhooda2746/bt-data/data/raw
+[data] train: 2186 slices / 167 patients / glioma 1071, meningioma 479, pituitary 636
+[data] val: 409 slices / 33 patients / glioma 160, meningioma 98, pituitary 151
+[data] cached 2595 slices at 384px in 6s
+[model] ProposedMTNet / resnet34 (imagenet) / seg-guided=True / 25.60M params
+/kaggle/working/brain_tumor_mtl/train.py:171: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  sched.step()
+ep   1 | loss 2.4643 (seg 1.6318 cls 0.8324) train-acc 0.6434 | val dice 0.1573 acc 0.8949 f1 0.8856 score 0.5214 | 93s  * saved
+ep   2 | loss 1.7095 (seg 1.1656 cls 0.5439) train-acc 0.8911 | val dice 0.5768 acc 0.9462 f1 0.9420 score 0.7594 | 50s  * saved
+ep   3 | loss 1.2449 (seg 0.7712 cls 0.4736) train-acc 0.9380 | val dice 0.6797 acc 0.9609 f1 0.9573 score 0.8185 | 52s  * saved
+ep   4 | loss 0.8510 (seg 0.4008 cls 0.4502) train-acc 0.9517 | val dice 0.7357 acc 0.9511 f1 0.9477 score 0.8417 | 53s  * saved
+ep   5 | loss 0.7310 (seg 0.3141 cls 0.4169) train-acc 0.9655 | val dice 0.7661 acc 0.9609 f1 0.9582 score 0.8621 | 53s  * saved
+ep   6 | loss 0.6622 (seg 0.2662 cls 0.3959) train-acc 0.9770 | val dice 0.7767 acc 0.9438 f1 0.9397 score 0.8582 | 54s
+ep   7 | loss 0.6261 (seg 0.2490 cls 0.3771) train-acc 0.9835 | val dice 0.7912 acc 0.9511 f1 0.9464 score 0.8688 | 54s  * saved
+ep   8 | loss 0.6133 (seg 0.2306 cls 0.3828) train-acc 0.9816 | val dice 0.8025 acc 0.9560 f1 0.9522 score 0.8773 | 54s  * saved
+ep   9 | loss 0.5896 (seg 0.2210 cls 0.3686) train-acc 0.9839 | val dice 0.8048 acc 0.9584 f1 0.9551 score 0.8799 | 54s  * saved
+ep  10 | loss 0.5830 (seg 0.2117 cls 0.3713) train-acc 0.9862 | val dice 0.8069 acc 0.9609 f1 0.9575 score 0.8822 | 55s  * saved
+ep  11 | loss 0.5600 (seg 0.2002 cls 0.3598) train-acc 0.9885 | val dice 0.8053 acc 0.9707 f1 0.9682 score 0.8867 | 55s  * saved
+ep  12 | loss 0.5434 (seg 0.1921 cls 0.3514) train-acc 0.9936 | val dice 0.8081 acc 0.9633 f1 0.9602 score 0.8841 | 55s
+ep  13 | loss 0.5297 (seg 0.1810 cls 0.3488) train-acc 0.9926 | val dice 0.8093 acc 0.9462 f1 0.9421 score 0.8757 | 55s
+ep  14 | loss 0.5168 (seg 0.1742 cls 0.3425) train-acc 0.9959 | val dice 0.8104 acc 0.9535 f1 0.9493 score 0.8798 | 55s
+ep  15 | loss 0.5189 (seg 0.1696 cls 0.3493) train-acc 0.9931 | val dice 0.8080 acc 0.9462 f1 0.9424 score 0.8752 | 55s
+ep  16 | loss 0.5143 (seg 0.1670 cls 0.3473) train-acc 0.9945 | val dice 0.8134 acc 0.9535 f1 0.9505 score 0.8819 | 55s
+ep  17 | loss 0.5061 (seg 0.1584 cls 0.3477) train-acc 0.9940 | val dice 0.8159 acc 0.9535 f1 0.9496 score 0.8828 | 55s
+ep  18 | loss 0.5097 (seg 0.1558 cls 0.3539) train-acc 0.9931 | val dice 0.8176 acc 0.9560 f1 0.9516 score 0.8846 | 55s
+ep  19 | loss 0.4880 (seg 0.1483 cls 0.3396) train-acc 0.9982 | val dice 0.8187 acc 0.9535 f1 0.9491 score 0.8839 | 55s
+ep  20 | loss 0.4904 (seg 0.1468 cls 0.3436) train-acc 0.9963 | val dice 0.8179 acc 0.9511 f1 0.9469 score 0.8824 | 55s
+ep  21 | loss 0.4759 (seg 0.1381 cls 0.3377) train-acc 0.9982 | val dice 0.8179 acc 0.9511 f1 0.9462 score 0.8821 | 55s
+ep  22 | loss 0.4820 (seg 0.1376 cls 0.3444) train-acc 0.9968 | val dice 0.8180 acc 0.9560 f1 0.9514 score 0.8847 | 55s
+ep  23 | loss 0.4704 (seg 0.1347 cls 0.3357) train-acc 0.9982 | val dice 0.8178 acc 0.9487 f1 0.9439 score 0.8809 | 55s
+ep  24 | loss 0.4723 (seg 0.1288 cls 0.3436) train-acc 0.9954 | val dice 0.8178 acc 0.9560 f1 0.9518 score 0.8848 | 55s
+ep  25 | loss 0.4690 (seg 0.1298 cls 0.3392) train-acc 0.9968 | val dice 0.8177 acc 0.9609 f1 0.9573 score 0.8875 | 55s  * saved
+ep  26 | loss 0.4568 (seg 0.1216 cls 0.3352) train-acc 0.9977 | val dice 0.8191 acc 0.9535 f1 0.9499 score 0.8845 | 55s
+ep  27 | loss 0.4585 (seg 0.1184 cls 0.3401) train-acc 0.9963 | val dice 0.8190 acc 0.9535 f1 0.9499 score 0.8844 | 55s
+ep  28 | loss 0.4536 (seg 0.1164 cls 0.3372) train-acc 0.9977 | val dice 0.8193 acc 0.9560 f1 0.9527 score 0.8860 | 55s
+ep  29 | loss 0.4464 (seg 0.1138 cls 0.3326) train-acc 0.9991 | val dice 0.8194 acc 0.9560 f1 0.9526 score 0.8860 | 55s
+ep  30 | loss 0.4434 (seg 0.1113 cls 0.3322) train-acc 1.0000 | val dice 0.8190 acc 0.9584 f1 0.9548 score 0.8869 | 55s
+ep  31 | loss 0.4475 (seg 0.1112 cls 0.3364) train-acc 0.9986 | val dice 0.8192 acc 0.9560 f1 0.9520 score 0.8856 | 55s
+ep  32 | loss 0.4378 (seg 0.1056 cls 0.3322) train-acc 0.9991 | val dice 0.8186 acc 0.9560 f1 0.9520 score 0.8853 | 55s
+ep  33 | loss 0.4328 (seg 0.1023 cls 0.3305) train-acc 0.9991 | val dice 0.8179 acc 0.9535 f1 0.9496 score 0.8837 | 55s
+ep  34 | loss 0.4301 (seg 0.1001 cls 0.3300) train-acc 0.9995 | val dice 0.8182 acc 0.9560 f1 0.9526 score 0.8854 | 55s
+ep  35 | loss 0.4374 (seg 0.1032 cls 0.3343) train-acc 0.9991 | val dice 0.8193 acc 0.9584 f1 0.9553 score 0.8873 | 55s
+ep  36 | loss 0.4310 (seg 0.0988 cls 0.3321) train-acc 0.9995 | val dice 0.8203 acc 0.9584 f1 0.9553 score 0.8878 | 55s  * saved
+ep  37 | loss 0.4258 (seg 0.0962 cls 0.3296) train-acc 1.0000 | val dice 0.8188 acc 0.9584 f1 0.9548 score 0.8868 | 55s
+ep  38 | loss 0.4239 (seg 0.0941 cls 0.3297) train-acc 1.0000 | val dice 0.8182 acc 0.9584 f1 0.9548 score 0.8865 | 55s
+ep  39 | loss 0.4219 (seg 0.0938 cls 0.3281) train-acc 1.0000 | val dice 0.8182 acc 0.9584 f1 0.9551 score 0.8866 | 54s
+ep  40 | loss 0.4185 (seg 0.0895 cls 0.3290) train-acc 1.0000 | val dice 0.8169 acc 0.9584 f1 0.9551 score 0.8860 | 54s
+ep  41 | loss 0.4172 (seg 0.0900 cls 0.3271) train-acc 1.0000 | val dice 0.8168 acc 0.9609 f1 0.9576 score 0.8872 | 54s
+ep  42 | loss 0.4160 (seg 0.0874 cls 0.3286) train-acc 1.0000 | val dice 0.8165 acc 0.9633 f1 0.9602 score 0.8884 | 54s  * saved
+ep  43 | loss 0.4204 (seg 0.0866 cls 0.3338) train-acc 0.9968 | val dice 0.8166 acc 0.9584 f1 0.9548 score 0.8857 | 54s
+ep  44 | loss 0.4157 (seg 0.0859 cls 0.3298) train-acc 0.9995 | val dice 0.8159 acc 0.9584 f1 0.9548 score 0.8854 | 54s
+ep  45 | loss 0.4145 (seg 0.0846 cls 0.3299) train-acc 0.9995 | val dice 0.8153 acc 0.9560 f1 0.9523 score 0.8838 | 54s
+ep  46 | loss 0.4149 (seg 0.0833 cls 0.3317) train-acc 0.9991 | val dice 0.8144 acc 0.9560 f1 0.9523 score 0.8833 | 54s
+ep  47 | loss 0.4099 (seg 0.0817 cls 0.3282) train-acc 1.0000 | val dice 0.8141 acc 0.9560 f1 0.9524 score 0.8832 | 54s
+ep  48 | loss 0.4111 (seg 0.0828 cls 0.3282) train-acc 1.0000 | val dice 0.8136 acc 0.9560 f1 0.9527 score 0.8832 | 54s
+ep  49 | loss 0.4071 (seg 0.0802 cls 0.3269) train-acc 1.0000 | val dice 0.8130 acc 0.9535 f1 0.9501 score 0.8816 | 54s
+ep  50 | loss 0.4073 (seg 0.0799 cls 0.3274) train-acc 0.9995 | val dice 0.8127 acc 0.9535 f1 0.9501 score 0.8814 | 54s
+ep  51 | loss 0.4076 (seg 0.0794 cls 0.3282) train-acc 1.0000 | val dice 0.8129 acc 0.9584 f1 0.9554 score 0.8841 | 54s
+ep  52 | loss 0.4070 (seg 0.0790 cls 0.3280) train-acc 1.0000 | val dice 0.8129 acc 0.9584 f1 0.9554 score 0.8842 | 54s
+ep  53 | loss 0.4057 (seg 0.0777 cls 0.3279) train-acc 1.0000 | val dice 0.8124 acc 0.9584 f1 0.9554 score 0.8839 | 54s
+ep  54 | loss 0.4053 (seg 0.0776 cls 0.3277) train-acc 1.0000 | val dice 0.8124 acc 0.9584 f1 0.9554 score 0.8839 | 55s
+ep  55 | loss 0.4064 (seg 0.0778 cls 0.3286) train-acc 0.9991 | val dice 0.8122 acc 0.9584 f1 0.9554 score 0.8838 | 55s
+ep  56 | loss 0.4070 (seg 0.0772 cls 0.3298) train-acc 0.9995 | val dice 0.8120 acc 0.9560 f1 0.9528 score 0.8824 | 55s
+ep  57 | loss 0.4054 (seg 0.0771 cls 0.3284) train-acc 1.0000 | val dice 0.8120 acc 0.9560 f1 0.9528 score 0.8824 | 55s
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8884 at epoch 42 -> runs/seed2/best.pth
+==> logs/seed0.log <==
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8858 at epoch 15 -> runs/seed0/best.pth
+
+==> logs/seed1.log <==
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8894 at epoch 20 -> runs/seed1/best.pth
+
+==> logs/seed2.log <==
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8884 at epoch 42 -> runs/seed2/best.pth
+[eval] 3 checkpoint(s), img_size 384, eval_size 256, device cuda
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+
+configuration    | val Dice  val acc   val F1 val score | test Dice test acc  test F1
+seed_0           |   0.8129   0.9633   0.9593    0.8861 |    0.8258   0.9787   0.9777
+seed_1           |   0.8176   0.9658   0.9616    0.8896 |    0.8377   0.9787   0.9770
+seed_2           |   0.8170   0.9633   0.9602    0.8886 |    0.8354   0.9851   0.9845
+seed_0+tta       |   0.8150   0.9731   0.9697    0.8923 |    0.8296   0.9787   0.9773
+seed_1+tta       |   0.8152   0.9658   0.9614    0.8883 |    0.8391   0.9829   0.9817
+seed_2+tta       |   0.8141   0.9584   0.9543    0.8842 |    0.8372   0.9872   0.9866
+ensemble         |   0.8205   0.9633   0.9600    0.8902 |    0.8392   0.9851   0.9845
+ensemble+tta     |   0.8215   0.9658   0.9616    0.8916 |    0.8427   0.9851   0.9845
+
+[eval] selected on VALIDATION: seed_0+tta
+[eval] Grad-CAM faithfulness ...
+
+===== TEST (seed_0+tta; 469 slices, 33 patients) =====
+Dice        0.8296  patient-CI [0.7822, 0.8739]   (native res 0.8275)
+IoU         0.7504
+Accuracy    0.9787  patient-CI [0.9592, 0.9938]  (10 errors from 6 patients)
+Macro-F1    0.9773
+Grad-CAM    IoU@0.5 0.1198 | pointing 0.3198 | energy 0.0421 | random floor 0.0093 | ceiling 0.5155 (grid 24)
+Efficiency  25.60M params, 23.2 ms/slice on cuda
+MAG-Net on the same split: Dice 0.7604, accuracy 0.9488, macro-F1 0.9467
+
+written: results/eval.json, results/eval_per_slice.csv, results/figures/
+next:    python compare.py --new results/eval_per_slice.csv
+
+=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+Accuracy                     new   97.87%  base   94.88%  diff +2.9851 pts  CI [+0.1828, +6.4966]  p_holm 0.143  (not significant) (McNemar 20 vs 6, p=0.009)
+Dice                         new   0.8296  base   0.7604  diff +0.0692  CI [+0.0460, +0.0946]  p_holm <0.001  (significant)
+IoU                          new   0.7504  base   0.6664  diff +0.0839  CI [+0.0598, +0.1095]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.1198  base   0.0936  diff +0.0263  CI [-0.0217, +0.0709]  p_holm 0.532  (not significant)
+CAM energy in tumour         new   0.0421  base   0.0444  diff -0.0023  CI [-0.0184, +0.0106]  p_holm 0.786  (not significant)
+Pointing game                new   31.98%  base   11.09%  diff +20.8955 pts  CI [+10.6854, +29.5635]  p_holm <0.001  (significant)
+
+=== Proposed MTL (v6)  vs  Previous multi-task (v5) ===
+Accuracy                     new   97.87%  base   94.88%  diff +2.9851 pts  CI [+0.0000, +6.7013]  p_holm 0.218  (not significant) (McNemar 19 vs 5, p=0.007)
+Dice                         new   0.8296  base   0.7682  diff +0.0615  CI [+0.0406, +0.0842]  p_holm <0.001  (significant)
+IoU                          new   0.7504  base   0.6807  diff +0.0697  CI [+0.0504, +0.0901]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.1198  base   0.0938  diff +0.0260  CI [-0.0209, +0.0712]  p_holm 0.823  (not significant)
+CAM energy in tumour         new   0.0421  base   0.0484  diff -0.0063  CI [-0.0218, +0.0067]  p_holm 0.823  (not significant)
+Pointing game                new   31.98%  base   28.14%  diff +3.8380 pts  CI [-8.9475, +15.5344]  p_holm 0.823  (not significant)
+
+=== Proposed MTL (v6): Grad-CAM faithfulness, correct vs incorrect ===
+cam_iou        correct 0.1174  incorrect 0.2319  diff -0.1145  CI [-0.2575, +0.0846]  p 0.168
+cam_energy     correct 0.0419  incorrect 0.0488  diff -0.0068  CI [-0.0403, +0.0310]  p 0.696
+cam_pointing   correct 0.3159  incorrect 0.5000  diff -0.1841  CI [-0.4417, +0.3042]  p 0.313
+cam_iou@0.2    correct 0.0518  incorrect 0.0859  diff -0.0341  CI [-0.1195, +0.0392]  p 0.432
+cam_iou@0.3    correct 0.0843  incorrect 0.1569  diff -0.0727  CI [-0.2315, +0.0620]  p 0.368
+cam_iou@0.4    correct 0.1092  incorrect 0.1972  diff -0.0880  CI [-0.2432, +0.0731]  p 0.278
+cam_iou@0.5    correct 0.1174  incorrect 0.2319  diff -0.1145  CI [-0.2575, +0.0846]  p 0.168
+cam_iou@0.6    correct 0.1069  incorrect 0.2181  diff -0.1112  CI [-0.2388, +0.1000]  p 0.207
+cam_iou@0.7    correct 0.0814  incorrect 0.1462  diff -0.0648  CI [-0.1472, +0.0789]  p 0.265
+cam_iou@0.8    correct 0.0496  incorrect 0.0772  diff -0.0277  CI [-0.0745, +0.0479]  p 0.366
+cam_iou@0.85   correct 0.0334  incorrect 0.0491  diff -0.0157  CI [-0.0492, +0.0324]  p 0.445
+cam_iou@0.9    correct 0.0188  incorrect 0.0261  diff -0.0073  CI [-0.0288, +0.0182]  p 0.565
+cam_iou@0.95   correct 0.0072  incorrect 0.0104  diff -0.0032  CI [-0.0131, +0.0070]  p 0.596
+
+written: results/comparison/comparison.json, results/comparison/comparison.md
+[xai] explaining configuration 'seed_0+tta' (1 model(s)); predictions with TTA=True
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+[xai] val accuracy of explained configuration: 0.9731
+[xai] gradcam@1/16     val energy 0.0433 | test energy 0.0421
+[xai] gradcam@1/32     val energy 0.0535 | test energy 0.0956
+[xai] hirescam@1/16    val energy 0.1895 | test energy 0.2067
+[xai] hirescam@1/32    val energy 0.1037 | test energy 0.1193
+
+candidate        |   val: energy   lift  point  IoU@.5 |  test: energy   lift  point  IoU@.5
+gradcam@1/16     |       0.0433   2.83  0.306  0.1165 |       0.0421   2.79  0.320  0.1198  (original)
+gradcam@1/32     |       0.0535   2.92  0.090  0.0391 |       0.0956   4.93  0.141  0.0580
+hirescam@1/16    |       0.1895  17.92  0.672  0.2206 |       0.2067  19.44  0.770  0.2451  <- selected on val
+hirescam@1/32    |       0.1037   8.04  0.320  0.1422 |       0.1193   7.72  0.341  0.1376
+
+=== test: hirescam@1/16 vs gradcam@1/16 (same model, same slices; patient-cluster bootstrap) ===
+cam_energy       diff +0.1647  CI [+0.1410, +0.1890]  p 0.0000
+cam_energy_lift  diff +16.6527  CI [+12.8701, +21.6124]  p 0.0000
+cam_pointing     diff +0.4499  CI [+0.3573, +0.5523]  p 0.0000
+cam_iou          diff +0.1252  CI [+0.0812, +0.1748]  p 0.0000
+
+[xai] selected on VALIDATION: hirescam@1/16
+[xai] test: energy 0.2067 (lift 19.44x uniform) | pointing 0.7697 | IoU@0.5 0.2451 | random floor 0.0033
+written: results_xai/eval_xai.json, results_xai/eval_per_slice.csv, results_xai/figures/cam_methods.png
+next:    python compare.py --new results_xai/eval_per_slice.csv --out results_xai/comparison
+[compare] note: new CAM = val-selected CAM, baseline CAM = Grad-CAM -> CAM rows mix model and method
+
+=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+Accuracy                     new   97.87%  base   94.88%  diff +2.9851 pts  CI [+0.1828, +6.4966]  p_holm 0.048  (significant) (McNemar 20 vs 6, p=0.009)
+Dice                         new   0.8296  base   0.7604  diff +0.0692  CI [+0.0460, +0.0946]  p_holm <0.001  (significant)
+IoU                          new   0.7504  base   0.6664  diff +0.0839  CI [+0.0598, +0.1095]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.2451  base   0.0936  diff +0.1515  CI [+0.0855, +0.2169]  p_holm <0.001  (significant)
+CAM energy in tumour         new   0.2067  base   0.0444  diff +0.1624  CI [+0.1367, +0.1859]  p_holm <0.001  (significant)
+Pointing game                new   76.97%  base   11.09%  diff +65.8849 pts  CI [+56.7163, +74.2861]  p_holm <0.001  (significant)
+
+=== Proposed MTL (v6)  vs  Previous multi-task (v5) ===
+Accuracy                     new   97.87%  base   94.88%  diff +2.9851 pts  CI [+0.0000, +6.7013]  p_holm 0.055  (not significant) (McNemar 19 vs 5, p=0.007)
+Dice                         new   0.8296  base   0.7682  diff +0.0615  CI [+0.0406, +0.0842]  p_holm <0.001  (significant)
+IoU                          new   0.7504  base   0.6807  diff +0.0697  CI [+0.0504, +0.0901]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.2451  base   0.0938  diff +0.1513  CI [+0.0862, +0.2153]  p_holm <0.001  (significant)
+CAM energy in tumour         new   0.2067  base   0.0484  diff +0.1584  CI [+0.1333, +0.1819]  p_holm <0.001  (significant)
+Pointing game                new   76.97%  base   28.14%  diff +48.8273 pts  CI [+38.8127, +58.3962]  p_holm <0.001  (significant)
+
+=== Proposed MTL (v6): Grad-CAM faithfulness, correct vs incorrect ===
+cam_iou        correct 0.2433  incorrect 0.3288  diff -0.0856  CI [-0.1877, +0.1228]  p 0.302
+cam_energy     correct 0.2063  incorrect 0.2254  diff -0.0191  CI [-0.1533, +0.1449]  p 0.849
+cam_pointing   correct 0.7712  incorrect 0.7000  diff +0.0712  CI [-0.2230, +0.5314]  p 0.626
+cam_iou@0.2    correct 0.3425  incorrect 0.3536  diff -0.0110  CI [-0.1715, +0.2424]  p 0.953
+cam_iou@0.3    correct 0.3454  incorrect 0.3904  diff -0.0450  CI [-0.1736, +0.2210]  p 0.630
+cam_iou@0.4    correct 0.3044  incorrect 0.3814  diff -0.0770  CI [-0.1942, +0.1717]  p 0.406
+cam_iou@0.5    correct 0.2433  incorrect 0.3288  diff -0.0856  CI [-0.1877, +0.1228]  p 0.302
+cam_iou@0.6    correct 0.1775  incorrect 0.2504  diff -0.0730  CI [-0.1513, +0.0814]  p 0.259
+cam_iou@0.7    correct 0.1146  incorrect 0.1694  diff -0.0547  CI [-0.1080, +0.0490]  p 0.221
+cam_iou@0.8    correct 0.0612  incorrect 0.0978  diff -0.0366  CI [-0.0669, +0.0225]  p 0.169
+cam_iou@0.85   correct 0.0386  incorrect 0.0670  diff -0.0284  CI [-0.0490, +0.0128]  p 0.132
+cam_iou@0.9    correct 0.0217  incorrect 0.0381  diff -0.0164  CI [-0.0276, +0.0074]  p 0.127
+cam_iou@0.95   correct 0.0082  incorrect 0.0154  diff -0.0072  CI [-0.0121, +0.0026]  p 0.103
+
+written: results_xai/comparison/comparison.json, results_xai/comparison/comparison.md
+Done. Download outputs_v6.zip and runs/seed*/best.pth

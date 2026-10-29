@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+data/
+runs/*/best.pth
+*.pth
+results/
+outputs_v6.zip
+.env

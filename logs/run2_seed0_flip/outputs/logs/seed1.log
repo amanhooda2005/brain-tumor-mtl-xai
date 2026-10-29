@@ -1,0 +1,38 @@
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+[data] /kaggle/input/datasets/amanhooda2746/bt-data/data/raw
+[data] train: 2186 slices / 167 patients / glioma 1071, meningioma 479, pituitary 636
+[data] val: 409 slices / 33 patients / glioma 160, meningioma 98, pituitary 151
+[data] cached 2595 slices at 384px in 10s
+[model] ProposedMTNet / resnet34 (imagenet) / seg-guided=True / 25.60M params
+ep   1 | loss 2.4065 (seg 1.5834 cls 0.8231) train-acc 0.6489 | val dice 0.2425 acc 0.8900 f1 0.8832 score 0.5629 | 96s  * saved
+ep   2 | loss 1.6319 (seg 1.0956 cls 0.5364) train-acc 0.9003 | val dice 0.5822 acc 0.9438 f1 0.9389 score 0.7605 | 51s  * saved
+ep   3 | loss 1.1719 (seg 0.6842 cls 0.4878) train-acc 0.9242 | val dice 0.7145 acc 0.9535 f1 0.9492 score 0.8319 | 52s  * saved
+ep   4 | loss 0.8103 (seg 0.3795 cls 0.4308) train-acc 0.9596 | val dice 0.7566 acc 0.9535 f1 0.9496 score 0.8531 | 54s  * saved
+ep   5 | loss 0.7263 (seg 0.3159 cls 0.4105) train-acc 0.9642 | val dice 0.7797 acc 0.9535 f1 0.9495 score 0.8646 | 55s  * saved
+ep   6 | loss 0.6752 (seg 0.2727 cls 0.4025) train-acc 0.9720 | val dice 0.7915 acc 0.9584 f1 0.9545 score 0.8730 | 54s  * saved
+ep   7 | loss 0.6359 (seg 0.2447 cls 0.3912) train-acc 0.9770 | val dice 0.7918 acc 0.9511 f1 0.9468 score 0.8693 | 54s
+ep   8 | loss 0.6034 (seg 0.2301 cls 0.3733) train-acc 0.9825 | val dice 0.7963 acc 0.9535 f1 0.9490 score 0.8726 | 54s
+ep   9 | loss 0.5953 (seg 0.2203 cls 0.3750) train-acc 0.9839 | val dice 0.8002 acc 0.9560 f1 0.9517 score 0.8760 | 55s  * saved
+ep  10 | loss 0.5807 (seg 0.2155 cls 0.3651) train-acc 0.9871 | val dice 0.8060 acc 0.9535 f1 0.9491 score 0.8776 | 54s  * saved
+ep  11 | loss 0.5663 (seg 0.2020 cls 0.3642) train-acc 0.9876 | val dice 0.8047 acc 0.9487 f1 0.9440 score 0.8743 | 55s
+ep  12 | loss 0.5551 (seg 0.1950 cls 0.3601) train-acc 0.9894 | val dice 0.8057 acc 0.9609 f1 0.9572 score 0.8814 | 54s  * saved
+ep  13 | loss 0.5298 (seg 0.1835 cls 0.3463) train-acc 0.9963 | val dice 0.8039 acc 0.9609 f1 0.9571 score 0.8805 | 54s
+ep  14 | loss 0.5185 (seg 0.1751 cls 0.3434) train-acc 0.9963 | val dice 0.8050 acc 0.9609 f1 0.9569 score 0.8810 | 54s
+ep  15 | loss 0.5273 (seg 0.1744 cls 0.3529) train-acc 0.9954 | val dice 0.8046 acc 0.9584 f1 0.9539 score 0.8792 | 54s
+ep  16 | loss 0.5148 (seg 0.1643 cls 0.3505) train-acc 0.9926 | val dice 0.8011 acc 0.9511 f1 0.9464 score 0.8737 | 55s
+ep  17 | loss 0.5041 (seg 0.1629 cls 0.3413) train-acc 0.9968 | val dice 0.8005 acc 0.9535 f1 0.9487 score 0.8746 | 54s
+ep  18 | loss 0.4947 (seg 0.1561 cls 0.3386) train-acc 0.9968 | val dice 0.8012 acc 0.9462 f1 0.9410 score 0.8711 | 54s
+ep  19 | loss 0.4919 (seg 0.1526 cls 0.3394) train-acc 0.9977 | val dice 0.8020 acc 0.9560 f1 0.9516 score 0.8768 | 55s
+ep  20 | loss 0.4986 (seg 0.1536 cls 0.3450) train-acc 0.9959 | val dice 0.8047 acc 0.9511 f1 0.9465 score 0.8756 | 55s
+ep  21 | loss 0.4830 (seg 0.1449 cls 0.3381) train-acc 0.9982 | val dice 0.8067 acc 0.9438 f1 0.9384 score 0.8725 | 55s
+ep  22 | loss 0.4776 (seg 0.1428 cls 0.3348) train-acc 0.9982 | val dice 0.8082 acc 0.9462 f1 0.9416 score 0.8749 | 54s
+ep  23 | loss 0.4753 (seg 0.1362 cls 0.3391) train-acc 0.9963 | val dice 0.8087 acc 0.9438 f1 0.9387 score 0.8737 | 54s
+ep  24 | loss 0.4733 (seg 0.1332 cls 0.3401) train-acc 0.9968 | val dice 0.8090 acc 0.9340 f1 0.9287 score 0.8689 | 55s
+ep  25 | loss 0.4644 (seg 0.1291 cls 0.3352) train-acc 0.9972 | val dice 0.8096 acc 0.9364 f1 0.9312 score 0.8704 | 55s
+ep  26 | loss 0.4614 (seg 0.1245 cls 0.3370) train-acc 0.9977 | val dice 0.8101 acc 0.9389 f1 0.9336 score 0.8719 | 54s
+ep  27 | loss 0.4555 (seg 0.1205 cls 0.3350) train-acc 0.9986 | val dice 0.8096 acc 0.9438 f1 0.9388 score 0.8742 | 54s
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8814 at epoch 12 -> runs/seed1/best.pth

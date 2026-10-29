@@ -1,0 +1,33 @@
+
+=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2505, +6.6099]  p_holm 0.075  (not significant) (McNemar 21 vs 6, p=0.006)
+Dice                         new   0.8305  base   0.7604  diff +0.0701  CI [+0.0440, +0.0981]  p_holm <0.001  (significant)
+IoU                          new   0.7498  base   0.6664  diff +0.0833  CI [+0.0568, +0.1112]  p_holm <0.001  (significant)
+Grad-CAM IoU@0.5             new   0.0452  base   0.0936  diff -0.0484  CI [-0.0861, -0.0138]  p_holm 0.016  (significant)
+Grad-CAM energy in tumour    new   0.0236  base   0.0444  diff -0.0208  CI [-0.0369, -0.0076]  p_holm 0.004  (significant)
+Pointing game                new   16.42%  base   11.09%  diff +5.3305 pts  CI [-3.9313, +13.6456]  p_holm 0.265  (not significant)
+
+=== Proposed MTL (v6)  vs  Previous multi-task (v5) ===
+Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2066, +6.8338]  p_holm 0.045  (significant) (McNemar 20 vs 5, p=0.004)
+Dice                         new   0.8305  base   0.7682  diff +0.0623  CI [+0.0404, +0.0856]  p_holm <0.001  (significant)
+IoU                          new   0.7498  base   0.6807  diff +0.0690  CI [+0.0486, +0.0905]  p_holm <0.001  (significant)
+Grad-CAM IoU@0.5             new   0.0452  base   0.0938  diff -0.0486  CI [-0.0846, -0.0153]  p_holm 0.010  (significant)
+Grad-CAM energy in tumour    new   0.0236  base   0.0484  diff -0.0247  CI [-0.0399, -0.0118]  p_holm <0.001  (significant)
+Pointing game                new   16.42%  base   28.14%  diff -11.7271 pts  CI [-22.2222, -1.8325]  p_holm 0.045  (significant)
+
+=== Proposed MTL (v6): Grad-CAM faithfulness, correct vs incorrect ===
+cam_iou        correct 0.0421  incorrect 0.2042  diff -0.1621  CI [-0.2083, +0.0051]  p 0.054
+cam_energy     correct 0.0234  incorrect 0.0353  diff -0.0119  CI [-0.0247, +0.0024]  p 0.128
+cam_pointing   correct 0.1565  incorrect 0.5556  diff -0.3990  CI [-0.8204, +0.1125]  p 0.055
+cam_iou@0.2    correct 0.0244  incorrect 0.0392  diff -0.0147  CI [-0.0306, +0.0023]  p 0.122
+cam_iou@0.3    correct 0.0345  incorrect 0.0741  diff -0.0396  CI [-0.0580, -0.0046]  p 0.031
+cam_iou@0.4    correct 0.0419  incorrect 0.1647  diff -0.1228  CI [-0.1855, +0.0007]  p 0.051
+cam_iou@0.5    correct 0.0421  incorrect 0.2042  diff -0.1621  CI [-0.2083, +0.0051]  p 0.054
+cam_iou@0.6    correct 0.0353  incorrect 0.1907  diff -0.1554  CI [-0.1964, +0.0179]  p 0.055
+cam_iou@0.7    correct 0.0244  incorrect 0.1431  diff -0.1186  CI [-0.1569, +0.0174]  p 0.055
+cam_iou@0.8    correct 0.0135  incorrect 0.0789  diff -0.0654  CI [-0.0855, +0.0093]  p 0.055
+cam_iou@0.85   correct 0.0088  incorrect 0.0507  diff -0.0419  CI [-0.0556, +0.0060]  p 0.055
+cam_iou@0.9    correct 0.0048  incorrect 0.0276  diff -0.0228  CI [-0.0314, +0.0031]  p 0.056
+cam_iou@0.95   correct 0.0018  incorrect 0.0099  diff -0.0081  CI [-0.0120, +0.0010]  p 0.055
+
+written: results/comparison/comparison.json, results/comparison/comparison.md

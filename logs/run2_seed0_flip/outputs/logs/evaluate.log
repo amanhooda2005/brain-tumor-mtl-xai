@@ -1,0 +1,30 @@
+[eval] 3 checkpoint(s), img_size 384, eval_size 256, device cuda
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+
+configuration    | val Dice  val acc   val F1 val score | test Dice test acc  test F1
+seed_0           |   0.8154   0.9658   0.9624    0.8889 |    0.8315   0.9808   0.9795
+seed_1           |   0.8062   0.9609   0.9572    0.8817 |    0.8243   0.9808   0.9792
+seed_2           |   0.8130   0.9658   0.9623    0.8876 |    0.8392   0.9787   0.9777
+seed_0+tta       |   0.8167   0.9731   0.9704    0.8935 |    0.8305   0.9808   0.9795
+seed_1+tta       |   0.8081   0.9658   0.9625    0.8853 |    0.8265   0.9829   0.9820
+seed_2+tta       |   0.8137   0.9658   0.9623    0.8880 |    0.8387   0.9808   0.9799
+ensemble         |   0.8142   0.9609   0.9570    0.8856 |    0.8353   0.9829   0.9820
+ensemble+tta     |   0.8146   0.9707   0.9673    0.8909 |    0.8349   0.9829   0.9820
+
+[eval] selected on VALIDATION: seed_0+tta
+[eval] Grad-CAM faithfulness ...
+
+===== TEST (seed_0+tta; 469 slices, 33 patients) =====
+Dice        0.8305  patient-CI [0.7821, 0.8746]   (native res 0.8284)
+IoU         0.7498
+Accuracy    0.9808  patient-CI [0.9581, 0.9979]  (9 errors from 4 patients)
+Macro-F1    0.9795
+Grad-CAM    IoU@0.5 0.0452 | pointing 0.1642 | energy 0.0236 | random floor 0.0098 | ceiling 0.5155 (grid 24)
+Efficiency  25.60M params, 23.6 ms/slice on cuda
+MAG-Net on the same split: Dice 0.7604, accuracy 0.9488, macro-F1 0.9467
+
+written: results/eval.json, results/eval_per_slice.csv, results/figures/
+next:    python compare.py --new results/eval_per_slice.csv

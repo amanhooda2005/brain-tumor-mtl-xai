@@ -1,0 +1,61 @@
+xai] explaining configuration 'seed_0+tta' (1 model(s)); predictions with TTA=True
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+[xai] val accuracy of explained configuration: 0.9731
+[xai] gradcam@1/16     val energy 0.0173 | test energy 0.0236
+[xai] gradcam@1/32     val energy 0.0898 | test energy 0.1160
+[xai] hirescam@1/16    val energy 0.1684 | test energy 0.1795
+[xai] hirescam@1/32    val energy 0.1312 | test energy 0.1530
+
+candidate        |   val: energy   lift  point  IoU@.5 |  test: energy   lift  point  IoU@.5
+gradcam@1/16     |       0.0173   1.08  0.083  0.0273 |       0.0236   1.46  0.164  0.0452  (original)
+gradcam@1/32     |       0.0898   5.52  0.108  0.0479 |       0.1160   6.69  0.154  0.0569
+hirescam@1/16    |       0.1684  16.95  0.589  0.1911 |       0.1795  17.37  0.627  0.1882  <- selected on val
+hirescam@1/32    |       0.1312  11.27  0.374  0.1918 |       0.1530  10.91  0.420  0.1780
+
+=== test: hirescam@1/16 vs gradcam@1/16 (same model, same slices; patient-cluster bootstrap) ===
+cam_energy       diff +0.1558  CI [+0.1136, +0.2027]  p 0.0000
+cam_energy_lift  diff +15.9062  CI [+11.1641, +21.8129]  p 0.0000
+cam_pointing     diff +0.4627  CI [+0.3409, +0.5954]  p 0.0000
+cam_iou          diff +0.1430  CI [+0.0888, +0.2099]  p 0.0000
+
+[xai] selected on VALIDATION: hirescam@1/16
+[xai] test: energy 0.1795 (lift 17.37x uniform) | pointing 0.6269 | IoU@0.5 0.1882 | random floor 0.0030
+written: results_xai/eval_xai.json, results_xai/eval_per_slice.csv, results_xai/figures/cam_methods.png
+next:    python compare.py --new results_xai/eval_per_slice.csv --out results_xai/comparison
+[compare] note: new CAM = val-selected CAM, baseline CAM = Grad-CAM -> CAM rows mix model and method
+
+=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2505, +6.6099]  p_holm 0.038  (significant) (McNemar 21 vs 6, p=0.006)
+Dice                         new   0.8305  base   0.7604  diff +0.0701  CI [+0.0440, +0.0981]  p_holm <0.001  (significant)
+IoU                          new   0.7498  base   0.6664  diff +0.0833  CI [+0.0568, +0.1112]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.1882  base   0.0936  diff +0.0947  CI [+0.0164, +0.1832]  p_holm 0.034  (significant)
+CAM energy in tumour         new   0.1795  base   0.0444  diff +0.1351  CI [+0.0940, +0.1798]  p_holm <0.001  (significant)
+Pointing game                new   62.69%  base   11.09%  diff +51.5991 pts  CI [+39.3829, +64.1205]  p_holm <0.001  (significant)
+
+=== Proposed MTL (v6)  vs  Previous multi-task (v5) ===
+Accuracy                     new   98.08%  base   94.88%  diff +3.1983 pts  CI [+0.2066, +6.8338]  p_holm 0.040  (significant) (McNemar 20 vs 5, p=0.004)
+Dice                         new   0.8305  base   0.7682  diff +0.0623  CI [+0.0404, +0.0856]  p_holm <0.001  (significant)
+IoU                          new   0.7498  base   0.6807  diff +0.0690  CI [+0.0486, +0.0905]  p_holm <0.001  (significant)
+CAM IoU@0.5                  new   0.1882  base   0.0938  diff +0.0944  CI [+0.0166, +0.1832]  p_holm 0.032  (significant)
+CAM energy in tumour         new   0.1795  base   0.0484  diff +0.1311  CI [+0.0893, +0.1770]  p_holm <0.001  (significant)
+Pointing game                new   62.69%  base   28.14%  diff +34.5416 pts  CI [+21.7064, +48.7860]  p_holm <0.001  (significant)
+
+=== Proposed MTL (v6): Grad-CAM faithfulness, correct vs incorrect ===
+cam_iou        correct 0.1869  incorrect 0.2552  diff -0.0683  CI [-0.3188, +0.0301]  p 0.178
+cam_energy     correct 0.1788  incorrect 0.2126  diff -0.0338  CI [-0.1655, +0.0782]  p 0.731
+cam_pointing   correct 0.6239  incorrect 0.7778  diff -0.1539  CI [-0.4748, +0.1260]  p 0.314
+cam_iou@0.2    correct 0.2685  incorrect 0.3474  diff -0.0789  CI [-0.3076, +0.1143]  p 0.427
+cam_iou@0.3    correct 0.2659  incorrect 0.3740  diff -0.1081  CI [-0.4746, +0.0862]  p 0.207
+cam_iou@0.4    correct 0.2339  incorrect 0.3241  diff -0.0902  CI [-0.3978, +0.0512]  p 0.208
+cam_iou@0.5    correct 0.1869  incorrect 0.2552  diff -0.0683  CI [-0.3188, +0.0301]  p 0.178
+cam_iou@0.6    correct 0.1365  incorrect 0.1822  diff -0.0457  CI [-0.2450, +0.0232]  p 0.199
+cam_iou@0.7    correct 0.0887  incorrect 0.1213  diff -0.0326  CI [-0.1807, +0.0161]  p 0.196
+cam_iou@0.8    correct 0.0478  incorrect 0.0663  diff -0.0186  CI [-0.1061, +0.0088]  p 0.207
+cam_iou@0.85   correct 0.0297  incorrect 0.0437  diff -0.0139  CI [-0.0757, +0.0061]  p 0.196
+cam_iou@0.9    correct 0.0166  incorrect 0.0238  diff -0.0073  CI [-0.0498, +0.0044]  p 0.275
+cam_iou@0.95   correct 0.0064  incorrect 0.0089  diff -0.0025  CI [-0.0181, +0.0020]  p 0.329
+
+written: results_xai/comparison/comparison.json, results_xai/comparison/comparison.md

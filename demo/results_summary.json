@@ -1,0 +1,30 @@
+{
+  "test_split": {"slices": 469, "patients": 33},
+  "runs": [
+    {"run": "Run 1", "setting": "3-model ensemble + flip", "accuracy": 98.72, "f1": 98.63, "dice": 0.8395, "iou": 0.7614, "errors": 6, "error_patients": 4,
+     "gain": 3.84, "gain_ci": [0.80, 7.73], "mcnemar": "22 / 4", "mcnemar_p": "< 0.001", "dice_gain": 0.079},
+    {"run": "Run 2", "setting": "Seed 0 + flip", "accuracy": 98.08, "f1": 97.95, "dice": 0.8305, "iou": 0.7498, "errors": 9, "error_patients": 4,
+     "gain": 3.20, "gain_ci": [0.25, 6.61], "mcnemar": "21 / 6", "mcnemar_p": "0.006", "dice_gain": 0.070},
+    {"run": "Run 3", "setting": "Seed 0 + flip", "accuracy": 97.87, "f1": 97.73, "dice": 0.8296, "iou": 0.7504, "errors": 10, "error_patients": 6,
+     "gain": 2.99, "gain_ci": [0.18, 6.50], "mcnemar": "20 / 6", "mcnemar_p": "0.009", "dice_gain": 0.069}
+  ],
+  "mean": {"accuracy": 98.22, "accuracy_sd": 0.44, "f1": 98.10, "f1_sd": 0.47, "dice": 0.833, "dice_sd": 0.006, "iou": 0.754, "iou_sd": 0.007},
+  "baselines": [
+    {"name": "MAG-Net (base paper, re-implemented, same split)", "short": "MAG-Net", "accuracy": 94.88, "f1": 94.67, "dice": 0.7604, "params_m": 5.13},
+    {"name": "Previous multi-task model (v5, from scratch)", "short": "Previous model", "accuracy": 94.88, "f1": 94.66, "dice": 0.7682, "params_m": 31.31}
+  ],
+  "published_magnet": {"accuracy": 98.04, "dice": 0.74, "note": "slice-level split, not patient-aware"},
+  "confusion": {
+    "labels": ["glioma", "meningioma", "pituitary"],
+    "proposed_run2": [[195, 0, 0], [5, 125, 1], [0, 3, 140]],
+    "magnet": [[194, 1, 0], [13, 115, 3], [4, 3, 136]]
+  },
+  "explanations": [
+    {"run": "Run 2", "method": "Grad-CAM", "energy": 0.024, "pointing": 16.4, "iou": 0.045},
+    {"run": "Run 2", "method": "HiResCAM", "energy": 0.180, "pointing": 62.7, "iou": 0.188},
+    {"run": "Run 3", "method": "Grad-CAM", "energy": 0.042, "pointing": 32.0, "iou": 0.120},
+    {"run": "Run 3", "method": "HiResCAM", "energy": 0.207, "pointing": 77.0, "iou": 0.245}
+  ],
+  "uniform_energy": 0.016,
+  "model": {"params_m": 25.6, "ms_per_slice_t4": 23.6, "encoder": "ResNet-34 (ImageNet)", "input": "384 x 384"}
+}

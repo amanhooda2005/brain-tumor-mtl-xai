@@ -1,0 +1,41 @@
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+[data] /kaggle/input/datasets/amanhooda2746/bt-data/data/raw
+[data] train: 2186 slices / 167 patients / glioma 1071, meningioma 479, pituitary 636
+[data] val: 409 slices / 33 patients / glioma 160, meningioma 98, pituitary 151
+[data] cached 2595 slices at 384px in 10s
+[model] ProposedMTNet / resnet34 (imagenet) / seg-guided=True / 25.60M params
+/kaggle/working/brain_tumor_mtl/train.py:171: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  sched.step()
+ep   1 | loss 2.2064 (seg 1.4079 cls 0.7985) train-acc 0.7298 | val dice 0.2859 acc 0.8826 f1 0.8711 score 0.5785 | 103s  * saved
+ep   2 | loss 1.5063 (seg 0.9674 cls 0.5388) train-acc 0.8984 | val dice 0.6094 acc 0.9364 f1 0.9312 score 0.7703 | 54s  * saved
+ep   3 | loss 1.0243 (seg 0.5558 cls 0.4685) train-acc 0.9343 | val dice 0.7228 acc 0.9609 f1 0.9576 score 0.8402 | 56s  * saved
+ep   4 | loss 0.8006 (seg 0.3516 cls 0.4490) train-acc 0.9439 | val dice 0.7591 acc 0.9487 f1 0.9445 score 0.8518 | 55s  * saved
+ep   5 | loss 0.7087 (seg 0.2965 cls 0.4122) train-acc 0.9674 | val dice 0.7721 acc 0.9487 f1 0.9440 score 0.8580 | 54s  * saved
+ep   6 | loss 0.6655 (seg 0.2631 cls 0.4024) train-acc 0.9688 | val dice 0.7946 acc 0.9560 f1 0.9513 score 0.8730 | 53s  * saved
+ep   7 | loss 0.6304 (seg 0.2472 cls 0.3832) train-acc 0.9789 | val dice 0.7966 acc 0.9609 f1 0.9574 score 0.8770 | 53s  * saved
+ep   8 | loss 0.6162 (seg 0.2346 cls 0.3816) train-acc 0.9793 | val dice 0.7991 acc 0.9487 f1 0.9439 score 0.8715 | 53s
+ep   9 | loss 0.5943 (seg 0.2233 cls 0.3711) train-acc 0.9862 | val dice 0.8059 acc 0.9535 f1 0.9491 score 0.8775 | 53s  * saved
+ep  10 | loss 0.5681 (seg 0.2085 cls 0.3597) train-acc 0.9894 | val dice 0.8066 acc 0.9584 f1 0.9548 score 0.8807 | 53s  * saved
+ep  11 | loss 0.5617 (seg 0.2028 cls 0.3590) train-acc 0.9899 | val dice 0.8076 acc 0.9535 f1 0.9497 score 0.8787 | 53s
+ep  12 | loss 0.5491 (seg 0.1910 cls 0.3581) train-acc 0.9899 | val dice 0.8140 acc 0.9609 f1 0.9575 score 0.8858 | 52s  * saved
+ep  13 | loss 0.5435 (seg 0.1876 cls 0.3560) train-acc 0.9913 | val dice 0.8151 acc 0.9658 f1 0.9624 score 0.8888 | 53s  * saved
+ep  14 | loss 0.5377 (seg 0.1778 cls 0.3600) train-acc 0.9908 | val dice 0.8148 acc 0.9511 f1 0.9458 score 0.8803 | 53s
+ep  15 | loss 0.5235 (seg 0.1697 cls 0.3538) train-acc 0.9931 | val dice 0.8120 acc 0.9535 f1 0.9489 score 0.8804 | 53s
+ep  16 | loss 0.5162 (seg 0.1659 cls 0.3504) train-acc 0.9940 | val dice 0.8137 acc 0.9560 f1 0.9512 score 0.8824 | 53s
+ep  17 | loss 0.5054 (seg 0.1599 cls 0.3456) train-acc 0.9959 | val dice 0.8132 acc 0.9560 f1 0.9510 score 0.8821 | 53s
+ep  18 | loss 0.5049 (seg 0.1544 cls 0.3506) train-acc 0.9931 | val dice 0.8125 acc 0.9560 f1 0.9515 score 0.8820 | 53s
+ep  19 | loss 0.4904 (seg 0.1516 cls 0.3387) train-acc 0.9963 | val dice 0.8148 acc 0.9535 f1 0.9486 score 0.8817 | 53s
+ep  20 | loss 0.4808 (seg 0.1456 cls 0.3352) train-acc 0.9982 | val dice 0.8139 acc 0.9462 f1 0.9415 score 0.8777 | 53s
+ep  21 | loss 0.4849 (seg 0.1427 cls 0.3423) train-acc 0.9968 | val dice 0.8156 acc 0.9462 f1 0.9415 score 0.8785 | 53s
+ep  22 | loss 0.4752 (seg 0.1355 cls 0.3396) train-acc 0.9968 | val dice 0.8171 acc 0.9535 f1 0.9491 score 0.8831 | 53s
+ep  23 | loss 0.4709 (seg 0.1324 cls 0.3385) train-acc 0.9959 | val dice 0.8195 acc 0.9487 f1 0.9441 score 0.8818 | 53s
+ep  24 | loss 0.4708 (seg 0.1303 cls 0.3406) train-acc 0.9963 | val dice 0.8202 acc 0.9511 f1 0.9466 score 0.8834 | 53s
+ep  25 | loss 0.4666 (seg 0.1286 cls 0.3379) train-acc 0.9982 | val dice 0.8209 acc 0.9511 f1 0.9466 score 0.8838 | 53s
+ep  26 | loss 0.4591 (seg 0.1239 cls 0.3352) train-acc 0.9986 | val dice 0.8229 acc 0.9487 f1 0.9440 score 0.8834 | 53s
+ep  27 | loss 0.4547 (seg 0.1198 cls 0.3350) train-acc 0.9991 | val dice 0.8232 acc 0.9511 f1 0.9465 score 0.8849 | 53s
+ep  28 | loss 0.4567 (seg 0.1191 cls 0.3376) train-acc 0.9959 | val dice 0.8239 acc 0.9560 f1 0.9513 score 0.8876 | 53s
+[train] early stop: no val improvement for 15 epochs
+[train] done. best val score 0.8888 at epoch 13 -> runs/seed0/best.pth

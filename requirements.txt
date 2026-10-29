@@ -1,0 +1,10 @@
+# torch / torchvision: use the version already installed on Kaggle (or install the CUDA build from pytorch.org)
+torch>=2.1
+segmentation-models-pytorch==0.5.0
+albumentations==2.0.8
+opencv-python-headless>=4.8
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.7
+h5py>=3.9        # only for scripts/prepare_data.py (.mat v7.3)
+scipy>=1.10      # only for older-format .mat files

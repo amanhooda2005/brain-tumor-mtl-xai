@@ -1,0 +1,183 @@
+{
+  "model": {
+    "arch": "magnet",
+    "checkpoint": "/Users/amanhooda/Downloads/checkpoints/best_magnet.pth",
+    "trainable_parameters": 5131114,
+    "reports": {
+      "seg": true,
+      "cls": true,
+      "cam": true
+    }
+  },
+  "test_split": {
+    "n_patients": 33,
+    "n_slices": 469,
+    "class_counts": {
+      "meningioma": 131,
+      "pituitary": 143,
+      "glioma": 195
+    },
+    "class_fractions": {
+      "meningioma": 0.2793,
+      "pituitary": 0.3049,
+      "glioma": 0.4158
+    }
+  },
+  "leakage_free": true,
+  "split_file": "/Users/amanhooda/Downloads/brain-tumour-app/ml/brain_tumor_project/splits/patient_split.json",
+  "segmentation": {
+    "mean_dice": 0.760383380524025,
+    "std_dice": 0.25543812225033063,
+    "ci95_dice": [
+      0.73693,
+      0.782688
+    ],
+    "ci95_method": "bootstrap percentile (10000 resamples, seed=0)",
+    "n": 469,
+    "mean_iou": 0.6664167206377749,
+    "std_iou": 0.2626931123796669,
+    "ci95_iou": [
+      0.642316,
+      0.689455
+    ],
+    "mean_sensitivity": 0.7865047833196216,
+    "std_sensitivity": 0.27245908802398855,
+    "ci95_sensitivity": [
+      0.761166,
+      0.810528
+    ],
+    "mean_specificity": 0.9971333383751322,
+    "std_specificity": 0.00416784636454043,
+    "ci95_specificity": [
+      0.996739,
+      0.997496
+    ],
+    "note_specificity": "Background dominates every slice, so specificity is ~0.99 for any model including one that predicts nothing. Do not present it as evidence of segmentation quality."
+  },
+  "classification": {
+    "accuracy": 0.9488272921108742,
+    "precision": 0.9547450334765841,
+    "recall": 0.9412611137801977,
+    "f1": 0.9467346772409134,
+    "per_class": {
+      "glioma": {
+        "precision": 0.919431279620853,
+        "recall": 0.9948717948717949,
+        "f1": 0.9556650246305419
+      },
+      "meningioma": {
+        "precision": 0.9663865546218487,
+        "recall": 0.8778625954198473,
+        "f1": 0.92
+      },
+      "pituitary": {
+        "precision": 0.9784172661870504,
+        "recall": 0.951048951048951,
+        "f1": 0.9645390070921985
+      }
+    },
+    "confusion_matrix": [
+      [
+        194,
+        1,
+        0
+      ],
+      [
+        13,
+        115,
+        3
+      ],
+      [
+        4,
+        3,
+        136
+      ]
+    ],
+    "confusion_matrix_labels": [
+      "glioma",
+      "meningioma",
+      "pituitary"
+    ],
+    "majority_class_baseline_accuracy": 0.4157782515991471
+  },
+  "explainability_faithfulness": {
+    "threshold": 0.5,
+    "cam_grid_size": 16,
+    "n_scored": 469,
+    "n_available": 469,
+    "truncated": false,
+    "correct": {
+      "mean_iou": 0.0969260580089439,
+      "std_iou": 0.11612255676327216,
+      "ci95_iou": [
+        0.086195,
+        0.107772
+      ],
+      "ci95_method": "bootstrap percentile (10000 resamples, seed=0)",
+      "n": 445,
+      "mean_dice": 0.15823759845025537,
+      "std_dice": 0.1758410707309094,
+      "ci95_dice": [
+        0.141782,
+        0.174686
+      ],
+      "pointing_game_accuracy": 0.1146067415730337,
+      "mean_energy_inside_mask": 0.04590887938253779,
+      "mean_random_baseline_iou": 0.013060750975342627,
+      "mean_resolution_ceiling_iou": 0.39721710363823215,
+      "iou_as_fraction_of_ceiling": 0.24401280086171687,
+      "iou_threshold_sweep": {
+        "0.2": 0.04230782220493813,
+        "0.3": 0.06505961644697265,
+        "0.4": 0.08422921251227157,
+        "0.5": 0.0969260580089439,
+        "0.6": 0.10403063158272069,
+        "0.7": 0.10283375287194282,
+        "0.8": 0.09089720875500443,
+        "0.85": 0.07784563261588717,
+        "0.9": 0.05743017495969177,
+        "0.95": 0.023543656781458287
+      },
+      "best_threshold": 0.6,
+      "best_threshold_iou": 0.10403063158272069,
+      "sweep_is_monotonic_increasing": false
+    },
+    "incorrect": {
+      "mean_iou": 0.03175776702188295,
+      "std_iou": 0.08019474252732936,
+      "ci95_iou": [
+        0.005695,
+        0.066804
+      ],
+      "ci95_method": "bootstrap percentile (10000 resamples, seed=0)",
+      "n": 24,
+      "mean_dice": 0.05222381913394577,
+      "std_dice": 0.12565419504951225,
+      "ci95_dice": [
+        0.010555,
+        0.107117
+      ],
+      "pointing_game_accuracy": 0.041666666666666664,
+      "mean_energy_inside_mask": 0.016144302438731,
+      "mean_random_baseline_iou": 0.011057167323726086,
+      "mean_resolution_ceiling_iou": 0.3718666181355749,
+      "iou_as_fraction_of_ceiling": 0.08540096226197083,
+      "iou_threshold_sweep": {
+        "0.2": 0.013356386534735294,
+        "0.3": 0.020612386162717298,
+        "0.4": 0.026189833083958225,
+        "0.5": 0.03175776702188295,
+        "0.6": 0.04043904024777654,
+        "0.7": 0.04619739224154116,
+        "0.8": 0.03882356951079905,
+        "0.85": 0.03186783690620287,
+        "0.9": 0.020272728609400215,
+        "0.95": 0.008789932841078856
+      },
+      "best_threshold": 0.7,
+      "best_threshold_iou": 0.04619739224154116,
+      "sweep_is_monotonic_increasing": false
+    }
+  },
+  "per_slice_csv": "/Users/amanhooda/Downloads/brain-tumour-app/ml/brain_tumor_project/results_v5/eval_magnet_per_slice.csv"
+}

@@ -1,0 +1,30 @@
+[eval] 3 checkpoint(s), img_size 384, eval_size 256, device cuda
+[split] train: 167 patients, 2186 slices  (matches split file)
+[split] val  :  33 patients,  409 slices  (matches split file)
+[split] test :  33 patients,  469 slices  (matches split file)
+[split] leakage check: PASS (no patient appears in two splits)
+
+configuration    | val Dice  val acc   val F1 val score | test Dice test acc  test F1
+seed_0           |   0.7993   0.9682   0.9653    0.8823 |    0.8217   0.9829   0.9819
+seed_1           |   0.8201   0.9682   0.9654    0.8928 |    0.8331   0.9829   0.9820
+seed_2           |   0.8194   0.9609   0.9570    0.8882 |    0.8405   0.9787   0.9775
+seed_0+tta       |   0.8022   0.9658   0.9628    0.8825 |    0.8266   0.9829   0.9819
+seed_1+tta       |   0.8217   0.9682   0.9655    0.8936 |    0.8346   0.9829   0.9817
+seed_2+tta       |   0.8195   0.9535   0.9494    0.8845 |    0.8399   0.9808   0.9797
+ensemble         |   0.8166   0.9707   0.9677    0.8921 |    0.8415   0.9872   0.9863
+ensemble+tta     |   0.8194   0.9658   0.9623    0.8908 |    0.8381   0.9893   0.9887
+
+[eval] selected on VALIDATION: seed_1+tta
+
+===== TEST (seed_1+tta; 469 slices, 33 patients) =====
+Dice        0.8346  patient-CI [0.7885, 0.8773]   (native res 0.8327)
+IoU         0.7537
+Accuracy    0.9829  patient-CI [0.9648, 0.9977]  (8 errors from 4 patients)
+Macro-F1    0.9817
+Efficiency  25.20M params, 21.5 ms/slice on cuda
+MAG-Net on the same split: Dice 0.7604, accuracy 0.9488, macro-F1 0.9467
+
+=== Proposed MTL (v6)  vs  MAG-Net (base paper, same split) ===
+Accuracy   new 98.29%  base 94.88%  diff +3.4115 pts  CI [+0.5791, +6.9869]  p_holm 0.016  (McNemar 21 vs 5, p=0.002)
+Dice       new 0.8346  base 0.7604  diff +0.0742  CI [+0.0470, +0.1037]  p_holm <0.001
+IoU        new 0.7537  base 0.6664  diff +0.0873  CI [+0.0606, +0.1157]  p_holm <0.001

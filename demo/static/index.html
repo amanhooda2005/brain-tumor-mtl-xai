@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brain Tumour MRI Analyser</title>
+<style>
+:root{
+  --bg:#E8ECEF; --surface:#FFFFFF; --ink:#15232E; --muted:#5B6B77; --rule:#CCD5DB; --soft:#F3F6F8;
+  --action:#0B6E80; --action-ink:#FFFFFF; --action-soft:#E1F0F3;
+  --mask:#2EC4D6; --good:#1E7F4F; --good-soft:#E3F3EA; --bad:#B42318; --bad-soft:#FBE9E7;
+  --film:#000000; --film-text:rgba(255,255,255,.82);
+  --radius-l:14px; --radius-s:8px;
+  --font:"Avenir Next","Segoe UI Variable Text","Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--action);outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- top bar ---------- */
+header.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 32px 0}
+.brand h1{margin:0;font-size:22px;font-weight:600;letter-spacing:-.01em}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.status{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--surface);
+  border:1px solid var(--rule);font-size:13px;color:var(--muted);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.dot.on{background:var(--good)} .dot.off{background:var(--bad)}
+
+nav.tabs{display:flex;gap:4px;padding:16px 32px 0;border-bottom:1px solid var(--rule)}
+nav.tabs button{background:none;border:0;padding:10px 16px 12px;font-size:15px;color:var(--muted);cursor:pointer;
+  border-bottom:3px solid transparent;margin-bottom:-1px}
+nav.tabs button[aria-selected=true]{color:var(--ink);font-weight:600;border-bottom-color:var(--action)}
+main{padding:24px 32px 48px}
+section.view[hidden]{display:none}
+
+/* ---------- live analysis ---------- */
+.live{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius-l);padding:20px}
+.panel h2{margin:0 0 4px;font-size:17px;font-weight:600}
+.panel .hint{margin:0 0 14px;color:var(--muted);font-size:14px}
+.seg{display:flex;background:var(--soft);border:1px solid var(--rule);border-radius:var(--radius-s);padding:3px;gap:2px}
+.seg button{flex:1;border:0;background:none;padding:6px 4px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--rule)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;max-height:372px;overflow:auto;padding:2px}
+.thumb{position:relative;border:0;padding:0;border-radius:6px;overflow:hidden;background:#000;cursor:pointer;aspect-ratio:1}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92}
+.thumb span{position:absolute;left:4px;bottom:4px;font-size:11px;padding:1px 6px;border-radius:4px;background:rgba(0,0,0,.65);color:#fff}
+.thumb[aria-current=true]{box-shadow:0 0 0 3px var(--action)}
+.thumb:hover img{opacity:1}
+.row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.btn{border:1px solid var(--rule);background:var(--surface);border-radius:var(--radius-s);padding:8px 14px;cursor:pointer;font-size:14px}
+.btn.primary{background:var(--action);border-color:var(--action);color:var(--action-ink);font-weight:600}
+.btn:disabled{opacity:.5;cursor:default}
+.divider{height:1px;background:var(--rule);margin:20px 0}
+.drop{display:block;position:relative;border:2px dashed var(--rule);border-radius:var(--radius-s);padding:18px 14px;text-align:center;color:var(--muted);font-size:14px;cursor:pointer;background:var(--soft)}
+.drop.over{border-color:var(--action);background:var(--action-soft);color:var(--ink)}
+.drop strong{color:var(--ink)}
+.maskpick{margin-top:8px;font-size:13px;color:var(--muted)}
+.maskpick label{color:var(--action);cursor:pointer;text-decoration:underline}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;font-size:14px}
+.switch small{display:block;color:var(--muted);font-size:12.5px}
+.switch input{appearance:none;width:40px;height:22px;border-radius:999px;background:var(--rule);position:relative;cursor:pointer;flex:none;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.switch input:checked{background:var(--action)} .switch input:checked::after{left:21px}
+
+/* result side */
+.empty{display:grid;place-items:center;min-height:520px;text-align:center;color:var(--muted)}
+.empty h2{color:var(--ink);font-size:22px;font-weight:600;margin:0 0 6px}
+.empty p{max-width:46ch;margin:0 auto}
+
+.verdict{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.verdict .label{font-size:14px;color:var(--muted);margin:0}
+.verdict .cls{font-size:40px;line-height:1.1;font-weight:600;letter-spacing:-.015em;margin:2px 0 10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:13.5px;background:var(--soft);border:1px solid var(--rule)}
+.chip.good{background:var(--good-soft);border-color:#B9DEC8;color:var(--good);font-weight:600}
+.chip.bad{background:var(--bad-soft);border-color:#F1C2BC;color:var(--bad);font-weight:600}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:130px 1fr 56px;align-items:center;gap:10px;font-size:14px}
+.bar .track{height:12px;background:var(--soft);border-radius:999px;overflow:hidden;border:1px solid var(--rule)}
+.bar .fill{height:100%;background:#9FB3BF;border-radius:999px;transition:width .5s ease}
+.bar.top .fill{background:var(--action)}
+.bar.top{font-weight:600}
+.bar .v{text-align:right}
+
+/* film sheet: the memorable element */
+.film{margin-top:20px;background:var(--film);border-radius:var(--radius-l);padding:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.frame{position:relative;aspect-ratio:1;background:#0A0A0A;border-radius:4px;overflow:hidden;cursor:zoom-in;border:0;padding:0}
+.frame img{width:100%;height:100%;display:block;object-fit:contain}
+.frame img:not([src]){visibility:hidden}
+.frame .tl,.frame .bl,.frame .br{max-width:calc(100% - 20px);position:absolute;color:var(--film-text);font-size:12.5px;line-height:1.3;text-shadow:0 1px 2px #000;pointer-events:none;text-align:left}
+.frame .tl{top:8px;left:10px;font-weight:600;color:#fff}
+.frame .bl{bottom:8px;left:10px}
+.frame .br{bottom:27px;left:10px}
+.frame.loading::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--mask);box-shadow:0 0 12px var(--mask);animation:scan 1.1s linear infinite}
+@keyframes scan{from{top:0}to{top:100%}}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:10px 2px 0;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+.ramp{display:inline-block;width:56px;height:8px;border-radius:2px;vertical-align:middle;margin-right:6px;
+  background:linear-gradient(90deg,#000004,#420a68,#932667,#dd513a,#fca50a,#fcffa4)}
+
+.evidence{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px;margin-top:20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--rule)}
+th{font-weight:600;color:var(--muted);font-size:13px}
+td.num,th.num{text-align:right}
+tr.em td{font-weight:600}
+.panel h3{margin:0 0 10px;font-size:15px;font-weight:600}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.err{background:var(--bad-soft);color:var(--bad);border:1px solid #F1C2BC;border-radius:var(--radius-s);padding:10px 14px;margin-bottom:16px;font-size:14px}
+
+.foot{padding:0 32px 28px;color:var(--muted);font-size:13px;max-width:110ch}
+@media (max-width:640px){.foot{padding:0 16px 24px}}
+/* lightbox */
+dialog{border:0;padding:0;background:#000;border-radius:10px;max-width:min(92vw,92vh)}
+dialog::backdrop{background:rgba(5,12,18,.82)}
+dialog img{display:block;width:min(88vw,86vh);height:auto}
+dialog p{margin:0;padding:10px 14px;color:#fff;font-size:14px}
+
+/* ---------- results ---------- */
+.res-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px;align-items:start}
+.lead{font-size:20px;line-height:1.45;max-width:62ch;margin:0 0 20px}
+.lead b{font-weight:600}
+.cm{display:grid;grid-template-columns:1fr;gap:18px}
+.cm table td{text-align:center}
+.cm caption{caption-side:top;text-align:left;font-weight:600;font-size:14px;padding-bottom:6px}
+.stack>*+*{margin-top:24px}
+
+/* ---------- how it works ---------- */
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.how img{width:100%;border-radius:var(--radius-s);border:1px solid var(--rule);background:#fff}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 44px}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+  background:var(--action-soft);color:var(--action);font-weight:600;display:grid;place-items:center;font-size:14px}
+ol.steps b{display:block}
+ol.steps span{color:var(--muted);font-size:14.5px}
+
+@media (max-width:1100px){
+  .live,.res-grid,.how,.evidence,.verdict{grid-template-columns:1fr}
+  .film{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  header.top,nav.tabs,main{padding-left:16px;padding-right:16px}
+  header.top{flex-direction:column;align-items:flex-start}
+  .verdict .cls{font-size:32px}
+  .cm{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  .frame.loading::after{animation:none;top:50%}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>Brain Tumour MRI Analyser</h1>
+    <p>Tumour segmentation, tumour type and measured explanations from one MRI slice. BCSE497J Project-I, VIT Vellore</p>
+  </div>
+  <div class="status" id="status"><span class="pill"><span class="dot"></span>Connecting to the model…</span></div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-view="live">Live analysis</button>
+  <button role="tab" aria-selected="false" data-view="results">Results</button>
+  <button role="tab" aria-selected="false" data-view="how">How it works</button>
+</nav>
+
+<main>
+<!-- ================= LIVE ================= -->
+<section class="view" id="view-live">
+  <div class="live">
+    <aside class="stack">
+      <div class="panel">
+        <h2>Slices from the test set</h2>
+        <p class="hint" id="galleryHint">Patients the model never saw in training.</p>
+        <div class="seg" role="group" aria-label="Filter by tumour type" id="filter">
+          <button aria-pressed="true" data-cls="all">All</button>
+          <button aria-pressed="false" data-cls="glioma">Glioma</button>
+          <button aria-pressed="false" data-cls="meningioma">Meningioma</button>
+          <button aria-pressed="false" data-cls="pituitary">Pituitary</button>
+        </div>
+        <div class="gallery" id="gallery" aria-label="Test slices"></div>
+        <div class="row">
+          <button class="btn" id="shuffle">More slices</button>
+          <button class="btn primary" id="random" style="flex:1;white-space:nowrap">Analyse random slice</button>
+        </div>
+        <div class="divider"></div>
+        <h2>Your own image</h2>
+        <p class="hint">A T1 contrast MRI slice as PNG or JPG, or a Figshare .mat file (its expert mask is read too).</p>
+        <label class="drop" id="drop" tabindex="0">
+          <input type="file" id="file" class="sr" accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.mat">
+          <strong>Drop a slice here</strong> or click to choose a file
+        </label>
+        <div class="maskpick">Optional expert mask for scoring: <label for="maskfile">choose mask image</label>
+          <input type="file" id="maskfile" class="sr" accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp"> <span id="maskname"></span></div>
+        <div class="divider"></div>
+        <div class="switch"><div>Use all three trained models<small>Averages the ensemble chosen on validation</small></div><input type="checkbox" id="ens" checked aria-label="Use all three trained models"></div>
+        <div class="switch"><div>Flip averaging<small>Also reads the mirrored slice</small></div><input type="checkbox" id="tta" checked aria-label="Flip averaging"></div>
+      </div>
+    </aside>
+
+    <div id="out">
+      <div class="panel empty" id="empty">
+        <div>
+          <h2>Pick a slice to analyse</h2>
+          <p>The model draws the tumour, names its type, and shows where it looked. With an expert mask, every answer is scored against it.</p>
+        </div>
+      </div>
+
+      <div id="result" hidden>
+        <div id="error"></div>
+        <div class="panel verdict">
+          <div>
+            <p class="label" id="srcLabel">Model reading</p>
+            <p class="cls" id="cls">–</p>
+            <div class="chips" id="chips"></div>
+          </div>
+          <div class="bars" id="bars" aria-label="Class probabilities"></div>
+        </div>
+
+        <div class="film" id="film">
+          <button class="frame" data-k="input"><img alt="MRI slice"><span class="tl">MRI slice</span><span class="bl" data-f="bl"></span><span class="br" data-f="br"></span></button>
+          <button class="frame" data-k="mask"><img alt="Predicted tumour mask"><span class="tl">Predicted tumour</span><span class="bl" data-f="bl"></span><span class="br" data-f="br"></span></button>
+          <button class="frame" data-k="gradcam"><img alt="Grad-CAM heatmap"><span class="tl">Grad-CAM</span><span class="bl" data-f="bl"></span><span class="br" data-f="br"></span></button>
+          <button class="frame" data-k="hirescam"><img alt="HiResCAM heatmap"><span class="tl">HiResCAM</span><span class="bl" data-f="bl"></span><span class="br" data-f="br"></span></button>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--mask)"></i>Predicted tumour</span>
+          <span><i style="background:#fff;box-shadow:0 0 0 1px #9aa"></i>Expert outline</span>
+          <span><b class="ramp"></b>Heatmap: low to high influence on the predicted class</span>
+          <span>Click any frame to enlarge it</span>
+        </div>
+
+        <div class="evidence">
+          <div class="panel">
+            <h3>Segmentation</h3>
+            <table id="segTable"></table>
+            <p class="note" id="segNote"></p>
+          </div>
+          <div class="panel">
+            <h3>Does the explanation point at the tumour?</h3>
+            <table id="camTable"></table>
+            <p class="note">A heatmap spread evenly over the slice would put only the tumour’s share of the image inside it (“× uniform” = 1). Higher is better.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section class="view" id="view-results" hidden>
+  <p class="lead" id="lead"></p>
+  <div class="res-grid">
+    <div class="stack">
+      <div class="panel">
+        <h3>Against MAG-Net on the same test slices</h3>
+        <div id="dotplot"></div>
+        <p class="note">Dots are the three independent training runs; the dark tick is their mean. All models were tested on the same 469 slices from 33 unseen patients.</p>
+      </div>
+      <div class="panel">
+        <h3>Three training runs</h3>
+        <table id="runsTable"></table>
+        <p class="note" id="runsNote"></p>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="panel">
+        <h3>Where the errors are</h3>
+        <div class="cm" id="cm"></div>
+        <p class="note">Rows are the expert label, columns the prediction. Proposed model from run 2, the run with full per-slice files.</p>
+      </div>
+      <div class="panel">
+        <h3>Explanation methods on the same models</h3>
+        <table id="camRes"></table>
+        <p class="note" id="camResNote"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW ================= -->
+<section class="view" id="view-how" hidden>
+  <div class="how">
+    <div class="panel">
+      <h3>From slice to answer</h3>
+      <ol class="steps">
+        <li><b>Standardise the slice</b><span>Grayscale, resized to 384 × 384 and normalised the way the pretrained encoder expects.</span></li>
+        <li><b>Shared encoder</b><span>A ResNet-34, first trained on ImageNet, turns the slice into features at five scales.</span></li>
+        <li><b>Draw the tumour</b><span>A U-Net decoder with attention rebuilds a full-size tumour mask from those features.</span></li>
+        <li><b>Name the tumour</b><span>The classifier pools features over the slice and under the predicted mask, so segmentation tells it where to look.</span></li>
+        <li><b>Explain and check</b><span>Grad-CAM and HiResCAM show which regions drove the decision; with an expert mask, the overlap is measured instead of eyeballed.</span></li>
+      </ol>
+      <div class="divider"></div>
+      <h3>Why the numbers can be trusted</h3>
+      <table>
+        <tr><td>Split</td><td>By patient: 167 train, 33 validation, 33 test; no patient in two splits</td></tr>
+        <tr><td>Choices</td><td>Model, ensemble setting and explanation method all chosen on validation</td></tr>
+        <tr><td>Repeats</td><td>Three independent training runs, all reported</td></tr>
+        <tr><td>Statistics</td><td>Patient-level bootstrap, McNemar and Holm tests against MAG-Net</td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>Architecture</h3>
+      <img src="/static/architecture.png" alt="Architecture: shared ResNet-34 encoder feeding a U-Net decoder and a segmentation-guided classification head, followed by explanation and evaluation modules">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">Research prototype for an academic project. Not a medical device and not for clinical use. Uploaded images are processed in memory and not stored. Data: Figshare brain tumour dataset (Cheng, 2017), CC BY 4.0.</footer>
+
+<dialog id="lightbox"><img alt=""><p></p></dialog>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const NICE = {glioma: "Glioma", meningioma: "Meningioma", pituitary: "Pituitary tumour"};
+const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+let state = {cls: "all", seed: 0, current: null, items: [], status: null, lastFile: null};
+
+/* ---------- tabs ---------- */
+$$("nav.tabs button").forEach(b => b.addEventListener("click", () => {
+  $$("nav.tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  $$("section.view").forEach(v => v.hidden = v.id !== "view-" + b.dataset.view);
+  if (b.dataset.view === "results") loadResults();
+}));
+
+/* ---------- status ---------- */
+async function loadStatus() {
+  try {
+    const s = await (await fetch("/api/status")).json();
+    state.status = s;
+    const dev = s.device.startsWith("cuda") ? "GPU" : s.device === "mps" ? "Apple GPU" : "CPU";
+    $("#status").innerHTML =
+      `<span class="pill"><span class="dot on"></span>${s.n_models} trained model${s.n_models > 1 ? "s" : ""} ready</span>
+       <span class="pill">Running on ${dev}</span>
+       <span class="pill">${(s.params_per_model / 1e6).toFixed(1)} M parameters each</span>`;
+    if (s.n_models < 2) { $("#ens").checked = false; $("#ens").disabled = true; }
+    if (s.lite) {
+      $("#tta").checked = false;
+      $("#status").insertAdjacentHTML("beforeend", `<span class="pill">Web version: one model${s.precision === "bf16" ? ", reduced precision" : ""}, shared CPU</span>`);
+    }
+    if (!s.dataset) {
+      $("#galleryHint").textContent = "No dataset folder found. Start the app with --data_dir to browse test slices, or upload an image below.";
+      $("#shuffle").disabled = $("#random").disabled = true;
+    } else loadGallery();
+  } catch (e) {
+    $("#status").innerHTML = `<span class="pill"><span class="dot off"></span>Model server not reachable</span>`;
+  }
+}
+
+/* ---------- gallery ---------- */
+async function loadGallery() {
+  const r = await (await fetch(`/api/samples?cls=${state.cls}&limit=36&seed=${state.seed}`)).json();
+  state.items = r.items;
+  $("#galleryHint").textContent = `${r.total} slices from patients the model never saw in training.`;
+  $("#gallery").innerHTML = r.items.map(it =>
+    `<button class="thumb" data-id="${it.image_id}" aria-label="${NICE[it.label]} slice ${it.image_id}">
+       <img loading="lazy" src="/api/thumb/${it.image_id}" alt=""><span>${NICE[it.label].split(" ")[0]}</span></button>`).join("");
+  $$(".thumb").forEach(b => b.addEventListener("click", () => analyseSample(b.dataset.id)));
+  markCurrent();
+}
+function markCurrent() { $$(".thumb").forEach(b => b.setAttribute("aria-current", b.dataset.id === state.current)); }
+$$("#filter button").forEach(b => b.addEventListener("click", () => {
+  $$("#filter button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  state.cls = b.dataset.cls; state.seed = 0; loadGallery();
+}));
+$("#shuffle").addEventListener("click", () => { state.seed = Math.floor(Math.random() * 1e6) + 1; loadGallery(); });
+$("#random").addEventListener("click", async () => {
+  const r = await (await fetch(`/api/samples?cls=${state.cls}&limit=1&seed=${Math.floor(Math.random() * 1e6) + 1}`)).json();
+  if (r.items.length) analyseSample(r.items[0].image_id);
+});
+
+/* ---------- running an analysis ---------- */
+function opts(fd) { fd.append("ensemble", $("#ens").checked); fd.append("tta", $("#tta").checked); return fd; }
+function busy(on) {
+  $("#empty").hidden = true; $("#result").hidden = false;
+  $$(".frame").forEach(f => f.classList.toggle("loading", on));
+  if (on) $("#cls").textContent = "Reading the slice…";
+}
+async function call(url, fd) {
+  busy(true); $("#error").innerHTML = "";
+  try {
+    const res = await fetch(url, {method: "POST", body: fd});
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || j.detail || res.statusText);
+    render(j);
+  } catch (e) {
+    $("#error").innerHTML = `<div class="err">Analysis failed: ${e.message}</div>`;
+    $("#cls").textContent = "–";
+  } finally { busy(false); }
+}
+function analyseSample(id) {
+  state.current = id; state.lastFile = null; markCurrent();
+  const fd = new FormData(); fd.append("image_id", id); call("/api/predict_sample", opts(fd));
+}
+function analyseFile(f) {
+  state.current = null; state.lastFile = f; markCurrent();
+  const fd = new FormData(); fd.append("file", f);
+  const m = $("#maskfile").files[0]; if (m) fd.append("mask", m);
+  call("/api/predict", opts(fd));
+}
+["#ens", "#tta"].forEach(s => $(s).addEventListener("change", () => {
+  if (state.current) analyseSample(state.current); else if (state.lastFile) analyseFile(state.lastFile);
+}));
+const drop = $("#drop");
+$("#file").addEventListener("change", e => e.target.files[0] && analyseFile(e.target.files[0]));
+drop.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("#file").click(); } });
+["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => e.dataTransfer.files[0] && analyseFile(e.dataTransfer.files[0]));
+$("#maskfile").addEventListener("change", e => $("#maskname").textContent = e.target.files[0] ? e.target.files[0].name : "");
+
+/* ---------- rendering ---------- */
+function render(r) {
+  $("#srcLabel").textContent = r.image_id ? `Model reading of ${r.image_id}${r.patient_id ? ", patient " + r.patient_id : ""}` : "Model reading";
+  const p = r.probabilities[r.prediction];
+  $("#cls").textContent = r.prediction_name;
+  const chips = [`<span class="chip">${pct(p)} confident</span>`];
+  if (r.true_label) chips.push(r.correct
+    ? `<span class="chip good">✓ Matches expert label</span>`
+    : `<span class="chip bad">✗ Expert label: ${NICE[r.true_label]}</span>`);
+  if (r.in_test_split) chips.push(`<span class="chip">Unseen test patient</span>`);
+  chips.push(`<span class="chip">${r.setting}</span>`);
+  chips.push(`<span class="chip">${r.time_ms.prediction} ms, explanations ${r.time_ms.explanation} ms</span>`);
+  $("#chips").innerHTML = chips.join("");
+
+  const order = Object.entries(r.probabilities).sort((a, b) => b[1] - a[1]);
+  $("#bars").innerHTML = order.map(([c, v], i) =>
+    `<div class="bar ${i === 0 ? "top" : ""}"><span>${NICE[c]}</span><div class="track"><div class="fill" style="width:0"></div></div><span class="v">${pct(v)}</span></div>`).join("");
+  requestAnimationFrame(() => $$("#bars .fill").forEach((f, i) => f.style.width = (order[i][1] * 100) + "%"));
+
+  for (const k of ["input", "mask", "gradcam", "hirescam"]) $(`.frame[data-k=${k}] img`).src = r.images[k];
+  const set = (k, bl, br) => { $(`.frame[data-k=${k}] [data-f=bl]`).textContent = bl || ""; $(`.frame[data-k=${k}] [data-f=br]`).textContent = br || ""; };
+  set("input", r.true_label ? `Expert label: ${NICE[r.true_label]}` : "Uploaded slice", "");
+  const s = r.segmentation;
+  set("mask", s ? `IoU ${s.iou.toFixed(3)}` : `Tumour area ${r.tumour_area_pct.toFixed(1)}%`, s ? `Dice ${s.dice.toFixed(3)}` : "");
+  for (const k of ["gradcam", "hirescam"]) {
+    const f = r.faithfulness && r.faithfulness[k];
+    set(k, f ? (f.pointing ? "Peak inside tumour" : "Peak outside tumour") : "", f ? `${pct(f.energy)} of heat in tumour` : "");
+  }
+
+  if (s) {
+    $("#segTable").innerHTML = `
+      <tr><th>Measure</th><th class="num">Value</th></tr>
+      <tr class="em"><td>Dice with expert mask</td><td class="num">${s.dice.toFixed(3)}</td></tr>
+      <tr><td>IoU with expert mask</td><td class="num">${s.iou.toFixed(3)}</td></tr>
+      <tr><td>Tumour area, predicted</td><td class="num">${r.tumour_area_pct.toFixed(2)}%</td></tr>
+      <tr><td>Tumour area, expert</td><td class="num">${s.tumour_pct_expert.toFixed(2)}%</td></tr>`;
+    $("#segNote").textContent = "Scored at 256 × 256, the same resolution as every number in the report. Test-set mean Dice: 0.833.";
+  } else {
+    $("#segTable").innerHTML = `<tr><th>Measure</th><th class="num">Value</th></tr><tr><td>Tumour area, predicted</td><td class="num">${r.tumour_area_pct.toFixed(2)}%</td></tr>`;
+    $("#segNote").textContent = "Add an expert mask (or use a test-set slice) to score the segmentation.";
+  }
+  const f = r.faithfulness;
+  if (f) {
+    const row = (name, fn, better) => {
+      const g = fn(f.gradcam), h = fn(f.hirescam);
+      return `<tr><td>${name}</td><td class="num">${g}</td><td class="num"><b>${h}</b></td></tr>`;
+    };
+    $("#camTable").innerHTML = `
+      <tr><th>Measure</th><th class="num">Grad-CAM</th><th class="num">HiResCAM</th></tr>
+      ${row("Share of heatmap inside the tumour", x => pct(x.energy))}
+      ${row("Compared with a uniform map", x => x.lift.toFixed(1) + " ×")}
+      ${row("Hottest point inside the tumour", x => x.pointing ? "Yes" : "No")}
+      ${row("Overlap (IoU) at threshold 0.5", x => x.iou.toFixed(3))}`;
+  } else {
+    $("#camTable").innerHTML = `<tr><td>Add an expert mask (or use a test-set slice) to measure how much of each heatmap falls on the tumour.</td></tr>`;
+  }
+}
+
+/* ---------- lightbox ---------- */
+$$(".frame").forEach(fr => fr.addEventListener("click", () => {
+  const img = $("img", fr); if (!img.src) return;
+  $("#lightbox img").src = img.src;
+  $("#lightbox p").textContent = [$(".tl", fr).textContent, $(".bl", fr).textContent, $(".br", fr).textContent].filter(Boolean).join("  |  ");
+  $("#lightbox").showModal();
+}));
+$("#lightbox").addEventListener("click", () => $("#lightbox").close());
+
+/* ---------- results tab ---------- */
+let resultsLoaded = false;
+async function loadResults() {
+  if (resultsLoaded) return;
+  const R = await (await fetch("/api/results")).json();
+  resultsLoaded = true;
+  const m = R.mean, mag = R.baselines[0];
+  $("#lead").innerHTML = `Across three independent training runs, the proposed model classified <b>${m.accuracy.toFixed(2)} ± ${m.accuracy_sd.toFixed(2)}%</b> of test slices correctly with a Dice of <b>${m.dice.toFixed(3)} ± ${m.dice_sd.toFixed(3)}</b>. MAG-Net, the base-paper model, reached ${mag.accuracy.toFixed(2)}% and ${mag.dice.toFixed(3)} on the same ${R.test_split.slices} slices from ${R.test_split.patients} unseen patients.`;
+
+  $("#dotplot").innerHTML = dotplot(R);
+  $("#runsTable").innerHTML = `<tr><th>Run</th><th>Setting chosen on validation</th><th class="num">Accuracy</th><th class="num">Dice</th><th class="num">Gain over MAG-Net</th><th>Disagreements</th></tr>` +
+    R.runs.map(r => `<tr><td>${r.run}</td><td>${r.setting}</td><td class="num">${r.accuracy.toFixed(2)}%</td><td class="num">${r.dice.toFixed(4)}</td>
+      <td class="num">+${r.gain.toFixed(2)} pts <small>[${r.gain_ci[0].toFixed(2)}, ${r.gain_ci[1].toFixed(2)}]</small></td><td>${r.mcnemar}, p ${r.mcnemar_p}</td></tr>`).join("") +
+    `<tr class="em"><td>Mean ± SD</td><td></td><td class="num">${m.accuracy.toFixed(2)} ± ${m.accuracy_sd.toFixed(2)}%</td><td class="num">${m.dice.toFixed(3)} ± ${m.dice_sd.toFixed(3)}</td><td></td><td></td></tr>`;
+  $("#runsNote").textContent = `Disagreements: slices only the proposed model got right / only MAG-Net got right (McNemar test). Brackets: 95% interval from resampling patients. MAG-Net’s published ${R.published_magnet.accuracy}% is not comparable: it was measured on a split that was not described as patient-aware.`;
+
+  const L = R.confusion.labels;
+  const cmTable = (title, M) => {
+    const mx = Math.max(...M.flat());
+    return `<table><caption>${title}</caption><tr><th></th>${L.map(l => `<th>${NICE[l].split(" ")[0]}</th>`).join("")}</tr>` +
+      M.map((row, i) => `<tr><th>${NICE[L[i]].split(" ")[0]}</th>${row.map((v, j) =>
+        `<td style="background:${i === j ? `rgba(30,127,79,${0.12 + 0.3 * v / mx})` : v ? `rgba(180,35,24,${Math.min(0.35, 0.06 + v / 30)})` : "transparent"}">${v}</td>`).join("")}</tr>`).join("") + `</table>`;
+  };
+  $("#cm").innerHTML = cmTable("Proposed model", R.confusion.proposed_run2) + cmTable("MAG-Net", R.confusion.magnet);
+
+  $("#camRes").innerHTML = `<tr><th>Run</th><th>Method</th><th class="num">Heat in tumour</th><th class="num">Peak in tumour</th><th class="num">IoU</th></tr>` +
+    R.explanations.map(e => `<tr class="${e.method === "HiResCAM" ? "em" : ""}"><td>${e.run}</td><td>${e.method}</td><td class="num">${pct(e.energy)}</td><td class="num">${e.pointing.toFixed(1)}%</td><td class="num">${e.iou.toFixed(3)}</td></tr>`).join("");
+  $("#camResNote").textContent = `A uniform heatmap would put ${pct(R.uniform_energy)} of its heat inside the tumour. HiResCAM was chosen on validation before the test split was examined.`;
+}
+
+function dotplot(R) {
+  const W = 620, H = 210, padL = 150, padR = 20, rowH = 46, top = 40;
+  const rows = [
+    {name: "Proposed model", acc: R.runs.map(r => r.accuracy), dice: R.runs.map(r => r.dice), main: true},
+    ...R.baselines.map(b => ({name: b.short, acc: [b.accuracy], dice: [b.dice]})),
+  ];
+  const panel = (key, x0, w, lo, hi, fmt, title, tick = fmt) => {
+    const X = v => x0 + (v - lo) / (hi - lo) * w;
+    let s = `<text x="${x0}" y="18" font-size="13" font-weight="600" fill="#15232E">${title}</text>`;
+    for (let t = 0; t <= 4; t++) {
+      const v = lo + (hi - lo) * t / 4;
+      s += `<line x1="${X(v)}" x2="${X(v)}" y1="${top - 8}" y2="${top + rowH * rows.length - 14}" stroke="#E1E7EB"/>
+            <text x="${X(v)}" y="${top + rowH * rows.length + 2}" font-size="11.5" fill="#5B6B77" text-anchor="middle">${tick(v)}</text>`;
+    }
+    rows.forEach((r, i) => {
+      const y = top + i * rowH + 8, vals = r[key], col = r.main ? "#0B6E80" : "#8C99A3";
+      if (vals.length > 1) {
+        const mean = vals.reduce((a, b) => a + b) / vals.length;
+        s += `<line x1="${X(Math.min(...vals))}" x2="${X(Math.max(...vals))}" y1="${y}" y2="${y}" stroke="${col}" stroke-width="2"/>
+              <line x1="${X(mean)}" x2="${X(mean)}" y1="${y - 9}" y2="${y + 9}" stroke="#15232E" stroke-width="2.5"/>
+              <text x="${X(mean)}" y="${y - 13}" font-size="12" fill="#15232E" text-anchor="middle">${fmt(mean)}</text>`;
+      } else s += `<text x="${X(vals[0])}" y="${y - 11}" font-size="12" fill="#15232E" text-anchor="middle">${fmt(vals[0])}</text>`;
+      vals.forEach(v => s += `<circle cx="${X(v)}" cy="${y}" r="5.5" fill="${col}" stroke="#fff" stroke-width="2"><title>${r.name}: ${fmt(v)}</title></circle>`);
+    });
+    return s;
+  };
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Accuracy and Dice of the proposed model against MAG-Net and the previous model">`;
+  rows.forEach((r, i) => s += `<text x="0" y="${top + i * rowH + 12}" font-size="13" fill="#15232E" font-weight="${r.main ? 600 : 400}">${r.name}</text>`);
+  s += panel("acc", padL, 200, 94, 100, v => v.toFixed(2) + "%", "Accuracy", v => v.toFixed(1) + "%");
+  s += panel("dice", padL + 250, W - padL - 250 - padR, 0.74, 0.86, v => v.toFixed(3), "Dice", v => v.toFixed(2));
+  return s + `</svg>`;
+}
+
+loadStatus();
+</script>
+</body>
+</html>

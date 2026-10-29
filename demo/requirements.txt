@@ -1,0 +1,9 @@
+torch>=2.1
+segmentation-models-pytorch==0.5.0
+opencv-python-headless>=4.8
+numpy>=1.24
+fastapi>=0.110
+uvicorn>=0.27
+python-multipart>=0.0.9
+h5py>=3.9          # reading Figshare .mat uploads
+scipy>=1.10        # older .mat files
